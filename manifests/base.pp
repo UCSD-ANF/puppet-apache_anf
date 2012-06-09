@@ -40,7 +40,7 @@ class apache::base {
   file {"log directory":
     path => $apache::params::log,
     ensure => directory,
-    mode => 755,
+    mode => 700,
     owner => "root",
     group  => "root",
     require => Package["apache"],
@@ -50,7 +50,7 @@ class apache::base {
     name    => $apache::params::user,
     ensure  => present,
     require => Package["apache"],
-    shell   => "/bin/sh",
+    shell   => "/sbin/nologin",
   }
 
   group { "apache group":
@@ -134,7 +134,7 @@ class apache::base {
     owner => root,
     group => root,
     mode => 755,
-    source => "puppet:///modules/apache/usr/local/bin/htgroup",
+    source => "puppet:///modules/${module_name}/usr/local/bin/htgroup",
   }
 
   file { ["${apache::params::conf}/sites-enabled/default",
