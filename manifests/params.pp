@@ -13,6 +13,14 @@ class apache::params {
     default => $apache_root
   }
 
+  $default_vhost_dir = $::apache_default_vhost_dir ? {
+    "" => $::operatingsystem ? {
+      /RedHat|CentOS/ => '/var/www',
+      /Debian|Ubuntu/ => '/var/www',
+    },
+    default => $::apache_default_vhost_dir,
+  }
+
   $user = $operatingsystem ? {
     /RedHat|CentOS/ => 'apache',
     /Debian|Ubuntu/ => 'www-data',
