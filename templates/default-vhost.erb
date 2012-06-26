@@ -1,6 +1,6 @@
 # file managed by puppet
 <VirtualHost *:80>
-  DocumentRoot <%=scope.lookupvar("apache::params::root")%>/html
+  DocumentRoot <%=scope.lookupvar("apache::params::default_vhost_dir")%>/html
   ServerName localhost
 
   <Directory />
@@ -8,7 +8,7 @@
     AllowOverride None
   </Directory>
 
-  <Directory /var/www/html/>
+  <Directory <%=scope.lookupvar("apache::params::default_vhost_dir")%>/html/>
     Options Indexes FollowSymLinks MultiViews
     AllowOverride None
     Order allow,deny

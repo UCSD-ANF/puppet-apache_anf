@@ -10,9 +10,23 @@ It shouldn't be necessary to directly include this class.
 class apache::base {
 
   include apache::params
+  include concat::setup
 
   $access_log = $apache::params::access_log
   $error_log  = $apache::params::error_log
+
+  concat {"${apache::params::conf}/ports.conf":
+    notify  => Service['apache'],
+    require => Package['apache'],
+  }
+
+  # removed this folder originally created by common::concatfilepart
+  file {"${apache::params::conf}/ports.conf.d":
+    ensure  => absent,
+    purge   => true,
+    recurse => true,
+    force   => true,
+  }
 
   file {"root directory":
     path => $apache::params::root,
@@ -26,7 +40,7 @@ class apache::base {
   file {"log directory":
     path => $apache::params::log,
     ensure => directory,
-    mode => 755,
+    mode => 700,
     owner => "root",
     group  => "root",
     require => Package["apache"],
@@ -36,7 +50,7 @@ class apache::base {
     name    => $apache::params::user,
     ensure  => present,
     require => Package["apache"],
-    shell   => "/bin/sh",
+    shell   => "/sbin/nologin",
   }
 
   group { "apache group":
@@ -120,7 +134,7 @@ class apache::base {
     owner => root,
     group => root,
     mode => 755,
-    source => "puppet:///modules/apache/usr/local/bin/htgroup",
+    source => "puppet:///modules/${module_name}/usr/local/bin/htgroup",
   }
 
   file { ["${apache::params::conf}/sites-enabled/default",
