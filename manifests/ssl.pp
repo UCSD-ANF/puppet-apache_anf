@@ -33,6 +33,7 @@ class apache::ssl inherits apache {
   case $operatingsystem {
     Debian,Ubuntu:  { include apache::ssl::debian}
     RedHat,CentOS:  { include apache::ssl::redhat}
+    Solaris:        { include apache::ssl::solaris}
     default: { fail "Unsupported operatingsystem ${operatingsystem}" }
   }
 }
