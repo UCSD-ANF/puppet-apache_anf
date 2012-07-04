@@ -1,0 +1,1 @@
+LoadModule dir_module libexec/mod_dir.so

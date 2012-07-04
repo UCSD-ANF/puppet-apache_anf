@@ -1,0 +1,1 @@
+LoadModule mime_magic_module libexec/mod_mime_magic.so

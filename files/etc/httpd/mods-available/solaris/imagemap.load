@@ -1,0 +1,1 @@
+LoadModule imagemap_module libexec/mod_imagemap.so

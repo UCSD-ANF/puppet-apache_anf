@@ -1,0 +1,1 @@
+LoadModule ldap_module libexec/mod_ldap.so
