@@ -1,10 +1,11 @@
 class apache::ssl::redhat inherits apache::base::ssl {
 
+  include apache::params
   package {"mod_ssl":
     ensure => installed,
   }
 
-  file {"/etc/httpd/conf.d/ssl.conf":
+  file {"${apache::params::conf}/conf.d/ssl.conf":
     ensure => absent,
     require => Package["mod_ssl"],
     notify => Service["apache"],
@@ -13,22 +14,22 @@ class apache::ssl::redhat inherits apache::base::ssl {
 
   apache::module { "ssl":
     ensure => present,
-    require => File["/etc/httpd/conf.d/ssl.conf"],
+    require => File["${apache::params::conf}/conf.d/ssl.conf"],
     notify => Service["apache"],
     before => Exec["apache-graceful"],
   }
 
-	case $lsbmajdistrelease {
+  case $lsbmajdistrelease {
     5,6: {
-      file {"/etc/httpd/mods-available/ssl.load":
+      file {"${apache::params::conf}/mods-available/ssl.load":
         ensure => present,
         content => template("apache/ssl.load.rhel${lsbmajdistrelease}.erb"),
         mode => 644,
         owner => "root",
         group => "root",
         seltype => "httpd_config_t",
-        require => File["/etc/httpd/mods-available"],
-			}
+        require => File["${apache::params::conf}/mods-available"],
+      }
     }
   }
 }
