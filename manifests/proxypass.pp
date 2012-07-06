@@ -35,11 +35,11 @@ Example usage:
 
 */
 define apache::proxypass (
-  $ensure="present", 
-  $location="", 
-  $url="", 
-  $params=[], 
-  $filename="", 
+  $ensure="present",
+  $location="",
+  $url="",
+  $params=[],
+  $filename="",
   $vhost
 ) {
 
