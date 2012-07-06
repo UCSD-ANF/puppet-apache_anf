@@ -17,9 +17,9 @@ class apache::dev {
   }
 
   $manage_package_name => $::operatingsystem ? {
-    /RedHat,CentOS/ => 'httpd-devel',
+    /RedHat|CentOS/ => 'httpd-devel',
     Solaris         => 'apache2_dev',
-    /Debian,Ubuntu/ => undef, # have to select between mpm and prefork dev pkg
+    /Debian|Ubuntu/ => undef, # have to select between mpm and prefork dev pkg
   }
 
   if $manage_package_name {
