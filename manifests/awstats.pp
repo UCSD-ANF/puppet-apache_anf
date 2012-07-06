@@ -5,7 +5,7 @@ class apache::awstats {
   }
 
   # ensure non-managed files are purged from directory
-  file {"/etc/awstats":
+  file { $apache::params::awstats_conf_dir :
     ensure  => directory,
     source  => "puppet:///modules/${module_name}/etc/awstats",
     mode    => 0755,
@@ -51,6 +51,15 @@ class apache::awstats {
         ensure  => absent,
         require => Package["awstats"],
         notify  => Exec["apache-graceful"],
+      }
+    }
+
+    Solaris : {
+      cron { "update all awstats virtual hosts":
+        command => "/opt/csw/awstats/awstats_updateall.pl -awstatsprog=/opt/csw/awstats/wwwroot/cgi-bin/awstats.pl -confdir=/opt/csw/etc/awstats now > /dev/null",
+        user    => "root",
+        minute  => [0,10,20,30,40,50],
+        require => Package[awstats]
       }
     }
 

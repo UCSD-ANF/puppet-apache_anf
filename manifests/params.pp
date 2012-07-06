@@ -74,4 +74,10 @@ class apache::params {
     /Debian|Ubuntu/ => "${log}/error.log",
   }
 
+  $awstats_conf_dir => $::operatingsystem ? {
+    /Debian,Ubuntu/ => '/etc/awstats',
+    /RedHat,CentOS/ => '/etc/awstats',
+    'Solaris'       => '/opt/csw/etc/awstats',
+  }
+
 }
