@@ -3,7 +3,7 @@
 #
 # Installs package(s) required to build apache modules using apxs.
 #
-# Limitation: currently only works on redhat.
+# Limitation: currently only works on redhat and Solaris with OpenCSW
 #
 # Example usage:
 #
@@ -11,12 +11,22 @@
 #
 class apache::dev {
 
-  package { "apache-devel":
-    name    => $operatingsystem ? {
-      RedHat => "httpd-devel",
-      CentOS => "httpd-devel",
-    },
-    ensure  => present,
-    require => Package["gcc"],
+  $manage_package_requires = $::operatingsystem ? {
+    'Solaris'       => Package['gcc4'],
+    default         => Package['gcc'],
+  }
+
+  $manage_package_name => $::operatingsystem ? {
+    /RedHat,CentOS/ => 'httpd-devel',
+    Solaris         => 'apache2_dev',
+    /Debian,Ubuntu/ => undef, # have to select between mpm and prefork dev pkg
+  }
+
+  if $manage_package_name {
+    package { "apache-devel":
+      name     => $manage_package_name,
+      ensure   => present,
+      requires => $manage_package_requires,
+    }
   }
 }
