@@ -17,6 +17,10 @@ class apache::debian inherits apache::base {
     path => "${apache::params::conf}/mods-available/status.conf",
     source => "puppet:///modules/${module_name}/etc/apache2/mods-available/status.conf",
   }
+
+  User ['apache user']{
+    shell => '/sbin/nologin',
+  }
   # END inheritance from apache::base
 
   $mpm_package = $apache_mpm_type ? {
