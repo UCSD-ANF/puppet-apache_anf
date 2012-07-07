@@ -56,13 +56,13 @@ ServerTokens OS
 #
 # Do NOT add a slash at the end of the directory path.
 #
-ServerRoot "/etc/httpd"
+ServerRoot <%= scope.lookupvar('apache::params::conf') %>
 
 #
 # PidFile: The file in which the server should record its process
 # identification number when it starts.
 #
-PidFile run/httpd.pid
+PidFile <%= httpd_pid_file %>
 
 #
 # Timeout: The number of seconds before receives and sends time out.

@@ -27,7 +27,9 @@ class apache::solaris inherits apache::base {
   }
 
   # $httpd_pid_file is used in template logrotate-httpd.erb
+  # and in httpd.conf.erb
   $httpd_pid_file = '/var/run/httpd.pid'
+
   File['logrotate configuration'] {
     path    => '/etc/logrotate.d/httpd',
     content => template('apache/logrotate-httpd.erb'),
@@ -72,7 +74,7 @@ class apache::solaris inherits apache::base {
 
   exec { "select httpd mpm ${httpd_mpm}":
     command => "/opt/csw/sbin/alternatives --set httpd /opt/csw/apache2/sbin/${httpd_mpm}",
-    unless  => "/bin/ls /opt/csw/apache2/sbin/httpd | /bin/sed 's/.*->\\ //g | /bin/grep ${httpd_mpm}",
+    unless  => "/bin/ls -l /opt/csw/apache2/sbin/httpd | /bin/sed 's/.*->\\ //g' | /bin/grep ${httpd_mpm}",
     require => Package["apache"],
     notify  => Service["apache"],
   }

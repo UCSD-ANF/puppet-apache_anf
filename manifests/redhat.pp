@@ -18,6 +18,7 @@ class apache::redhat inherits apache::base {
 
 
   # $httpd_pid_file is used in template logrotate-httpd.erb
+  # and in httpd.conf.erb
   $httpd_pid_file = $lsbmajdistrelease ? {
     /4|5/   => "/var/run/httpd.pid",
     default => "/var/run/httpd/httpd.pid",
