@@ -17,6 +17,11 @@ class apache::solaris inherits apache::base {
     ],
   }
 
+  # Need this for htpasswd and friends
+  package['apache2_utils'] {
+    ensure => installed,
+  }
+
   # $httpd_pid_file is used in template logrotate-httpd.erb
   $httpd_pid_file = '/var/run/httpd.pid'
   File['logrotate configuration'] {
@@ -31,7 +36,7 @@ class apache::solaris inherits apache::base {
 
   # END inheritance from apache::base
 
-  file { $default_vhost_dir:
+  file { $apache::params::default_vhost_dir:
     ensure  => 'directory',
     require => Package['apache'],
     owner   => 'root',
@@ -47,14 +52,14 @@ class apache::solaris inherits apache::base {
   }
 
   $httpd_mpm = $apache_mpm_type ? {
-    ''         => 'httpd', # default MPM
-    'pre-fork' => 'httpd',
-    'prefork'  => 'httpd',
-    default    => "httpd.${apache_mpm_type}",
+    ''         => 'httpd.prefork', # default MPM
+    'pre-fork' => 'httpd.prefork',
+    'prefork'  => 'httpd.prefork',
+    default    => 'httpd.${apache_mpm_type}',
   }
 
-  augeas { "select httpd mpm ${httpd_mpm}":
-    changes => "set /files/etc/sysconfig/httpd/HTTPD /usr/sbin/${httpd_mpm}",
+  Exec { "select httpd mpm ${httpd_mpm}":
+    command => "/opt/csw/bin/alternatives --set httpd /opt/csw/apache2/sbin/${httpd_mpm}",
     require => Package["apache"],
     notify  => Service["apache"],
   }
