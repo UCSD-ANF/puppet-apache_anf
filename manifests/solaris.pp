@@ -17,8 +17,12 @@ class apache::solaris inherits apache::base {
     ],
   }
 
+  File['log directory'] {
+    group => 'bin',
+  }
+
   # Need this for htpasswd and friends
-  package['apache2_utils'] {
+  package{'apache2_utils' :
     ensure => installed,
   }
 
@@ -29,9 +33,17 @@ class apache::solaris inherits apache::base {
     content => template('apache/logrotate-httpd.erb'),
   }
 
+  file { "${apache::params::conf}/conf.d":
+    ensure => directory,
+    owner  => 'root',
+    group  => 'bin',
+    mode   => '0755',
+  }
+
   File['default status module configuration'] {
-    path   => "${apache::params::conf}/conf.d/status.conf",
-    source => "puppet:///modules/${module_name}/etc/httpd/conf/status.conf",
+    path    => "${apache::params::conf}/conf.d/status.conf",
+    source  => "puppet:///modules/${module_name}/etc/httpd/conf/status.conf",
+    require => File["${apache::params::conf}/conf.d"],
   }
 
   # END inheritance from apache::base
@@ -55,11 +67,12 @@ class apache::solaris inherits apache::base {
     ''         => 'httpd.prefork', # default MPM
     'pre-fork' => 'httpd.prefork',
     'prefork'  => 'httpd.prefork',
-    default    => 'httpd.${apache_mpm_type}',
+    default    => "httpd.${apache_mpm_type}",
   }
 
-  Exec { "select httpd mpm ${httpd_mpm}":
-    command => "/opt/csw/bin/alternatives --set httpd /opt/csw/apache2/sbin/${httpd_mpm}",
+  exec { "select httpd mpm ${httpd_mpm}":
+    command => "/opt/csw/sbin/alternatives --set httpd /opt/csw/apache2/sbin/${httpd_mpm}",
+    unless  => "/bin/ls /opt/csw/apache2/sbin/httpd | /bin/sed 's/.*->\\ //g | /bin/grep ${httpd_mpm}",
     require => Package["apache"],
     notify  => Service["apache"],
   }
@@ -76,7 +89,7 @@ class apache::solaris inherits apache::base {
     require => Package["apache"],
   }
 
-  file { "${apache::params::conf}/conf/httpd.conf":
+  file { "${apache::params::conf}/httpd.conf":
     ensure => present,
     content => template("apache/httpd.conf.erb"),
     notify  => Service["apache"],
