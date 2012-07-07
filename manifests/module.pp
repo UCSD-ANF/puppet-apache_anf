@@ -6,7 +6,7 @@ define apache::module ($ensure='present') {
     /RedHat|CentOS|Solaris/ => [
       Package["apache"],
       File["${apache::params::conf}/mods-available"],
-      File["${apahce::params::conf}/mods-enabled"],
+      File["${apache::params::conf}/mods-enabled"],
       File["/usr/local/sbin/a2enmod"],
       File["/usr/local/sbin/a2dismod"]
     ],
