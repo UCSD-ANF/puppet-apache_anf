@@ -18,7 +18,8 @@ class apache::solaris inherits apache::base {
   }
 
   File['log directory'] {
-    group => 'bin',
+    group   => 'bin',
+    require => Package['apache'],
   }
 
   # Need this for htpasswd and friends
@@ -36,10 +37,11 @@ class apache::solaris inherits apache::base {
   }
 
   file { "${apache::params::conf}/conf.d":
-    ensure => directory,
-    owner  => 'root',
-    group  => 'bin',
-    mode   => '0755',
+    ensure  => directory,
+    owner   => 'root',
+    group   => 'bin',
+    mode    => '0755',
+    require => Package['apache'],
   }
 
   File['default status module configuration'] {
@@ -52,12 +54,17 @@ class apache::solaris inherits apache::base {
 
   file { $apache::params::default_vhost_dir:
     ensure  => 'directory',
-    require => Package['apache'],
     owner   => 'root',
     group   => 'bin',
+    require => Package['apache'],
   }
 
-  file { ["/usr/local/sbin/a2ensite", "/usr/local/sbin/a2dissite", "/usr/local/sbin/a2enmod", "/usr/local/sbin/a2dismod"]:
+  file { [
+    "/usr/local/sbin/a2ensite",
+    "/usr/local/sbin/a2dissite",
+    "/usr/local/sbin/a2enmod",
+    "/usr/local/sbin/a2dismod",
+  ]:
     ensure => present,
     mode => 755,
     owner => "root",
