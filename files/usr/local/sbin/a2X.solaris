@@ -9,7 +9,7 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 
-if $(echo $SCRIPT | egrep -q  ".*mod$"); then
+if $(echo $SCRIPT | /usr/xpg4/bin/egrep -q  ".*mod$"); then
   BASE='mods'
   EXT='.load'
 else
