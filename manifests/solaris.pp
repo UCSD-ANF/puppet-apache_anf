@@ -83,15 +83,11 @@ class apache::solaris inherits apache::base {
   # ssl.load was then changed to a template (see apache-ssl-redhat.pp)
   file { "${apache::params::conf}/mods-available":
     ensure => directory,
-    source => $lsbmajdistrelease ? {
-      5 => "puppet:///modules/${module_name}/etc/httpd/mods-available/redhat5/",
-      6 => "puppet:///modules/${module_name}/etc/httpd/mods-available/redhat6/",
-    },
+    source => "puppet:///modules/${module_name}/etc/httpd/mods-available/solaris/",
     recurse => true,
     mode => 644,
     owner => "root",
-    group => "root",
-    seltype => "httpd_config_t",
+    group => "bin",
     require => Package["apache"],
   }
 
