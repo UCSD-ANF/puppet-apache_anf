@@ -14,7 +14,7 @@ class apache::params {
 
   # ServerRoot
   $sroot = $::operatingsystem ? {
-    /RedHat|Centos/ => '/etc/httpd',
+    /RedHat|CentOS/ => '/etc/httpd',
     /Debian|Ubuntu/ => '/etc/apache2',
     'Solaris'       => '/opt/csw/apache2',
   }
@@ -36,6 +36,13 @@ class apache::params {
       Solaris         => '/opt/csw/apache2/share/htdocs',
     },
     default => $::apache_default_vhost_dir,
+  }
+
+  # Location of error dir includes
+  $error => $::operatingsystem ? {
+    /RedHat|CentOS/ => '/var/www/error',
+    /Debian|Ubuntu/ => '/var/www/error',
+    'Solaris'       => '/opt/csw/apache2/share/error',
   }
 
   $user = $::operatingsystem ? {
