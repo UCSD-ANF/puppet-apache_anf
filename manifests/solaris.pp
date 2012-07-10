@@ -4,7 +4,7 @@ class apache::solaris inherits apache::base {
 
   # BEGIN inheritance from apache::base
   Exec['apache-graceful'] {
-    command => '/opt/csw/apache2/sbin/apachectl graceful',
+    command => "/usr/sbin/svcadm refresh ${apache::params::service}",
     onlyif  => '/opt/csw/apache2/sbin/apachectl configtest',
   }
 
