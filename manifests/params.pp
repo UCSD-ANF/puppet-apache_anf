@@ -39,7 +39,7 @@ class apache::params {
   }
 
   # Location of error dir includes
-  $error => $::operatingsystem ? {
+  $error = $::operatingsystem ? {
     /RedHat|CentOS/ => '/var/www/error',
     /Debian|Ubuntu/ => '/var/www/error',
     'Solaris'       => '/opt/csw/apache2/share/error',

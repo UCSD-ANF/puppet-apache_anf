@@ -839,11 +839,11 @@ AddOutputFilter INCLUDES .shtml
 # copying them to /your/include/path/, even on a per-VirtualHost basis.
 #
 
-Alias /error/ "<%=scope.lookupvar(apache::params::error)%>/"
+Alias /error/ "<%=scope.lookupvar('apache::params::error')%>/"
 
 <IfModule mod_negotiation.c>
 <IfModule mod_include.c>
-    <Directory "<%=scope.lookupvar(apache::params::error)%>">
+    <Directory "<%=scope.lookupvar('apache::params::error')%>">
         AllowOverride None
         Options IncludesNoExec
         AddOutputFilter Includes html
@@ -995,5 +995,5 @@ BrowserMatch "^Dreamweaver-WebDAV-SCM1" redirect-carefully
 #    CustomLog logs/dummy-host.example.com-access_log common
 #</VirtualHost>
 
-Include <%=scope.lookupvar('apache::params::conf')%>sites-enabled/
+Include <%=scope.lookupvar('apache::params::conf')%>/sites-enabled/
 
