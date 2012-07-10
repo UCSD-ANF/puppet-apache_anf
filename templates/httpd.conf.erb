@@ -415,7 +415,7 @@ AccessFileName .htaccess
 # TypesConfig describes where the mime.types file (or equivalent) is
 # to be found.
 #
-TypesConfig /etc/mime.types
+TypesConfig <%=scope.lookupvar('apache::params::mime_file')%>
 
 #
 # DefaultType is the default MIME type the server will use for a document

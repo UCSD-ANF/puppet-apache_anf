@@ -106,4 +106,11 @@ class apache::params {
     'Solaris'       => '/opt/csw/etc/awstats',
   }
 
+  $mime_file = $::operatingsystem ? {
+    /Debian|Ubuntu/ => '/etc/mime.types',
+    /RedHat|CentOS/ => '/etc/mime.types',
+    'Solaris'       => 'etc/mime.types',
+  }
+
+
 }
