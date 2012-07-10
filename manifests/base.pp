@@ -28,8 +28,8 @@ class apache::base {
     force   => true,
   }
 
-  file {"root directory":
-    path => $apache::params::root,
+  file {"vroot directory":
+    path => $apache::params::vroot,
     ensure => directory,
     mode => 755,
     owner => "root",

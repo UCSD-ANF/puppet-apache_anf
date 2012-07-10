@@ -3,7 +3,7 @@ define apache::aw-stats($ensure=present, $aliases=[]) {
   include apache::params
 
   # used in ERB template
-  $wwwroot = $apache::params::root
+  $wwwroot = $apache::params::sroot
 
   file { "${apache::params::awstats_conf_dir}/awstats.${name}.conf":
     ensure  => $ensure,
@@ -11,7 +11,7 @@ define apache::aw-stats($ensure=present, $aliases=[]) {
     require => [Package["apache"], Class["apache::awstats"]],
   }
 
-  file { "${apache::params::root}/${name}/conf/awstats.conf":
+  file { "${apache::params::vroot}/${name}/conf/awstats.conf":
     ensure  => $ensure,
     owner   => root,
     group   => root,

@@ -56,7 +56,7 @@ ServerTokens OS
 #
 # Do NOT add a slash at the end of the directory path.
 #
-ServerRoot <%= scope.lookupvar('apache::params::conf') %>
+ServerRoot <%= scope.lookupvar('apache::params::sroot') %>
 
 #
 # PidFile: The file in which the server should record its process

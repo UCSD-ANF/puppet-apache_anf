@@ -34,20 +34,20 @@ class apache::debian inherits apache::base {
   }
 
   # directory not present in lenny
-  file { "${apache::params::root}/apache2-default":
+  file { "${apache::params::vroot}/apache2-default":
     ensure => absent,
     force  => true,
   }
 
-  file { "${apache::params::root}/index.html":
+  file { "${apache::params::vroot}/index.html":
     ensure => absent,
   }
 
-  file { "${apache::params::root}/html":
+  file { "${apache::params::vroot}/html":
     ensure  => directory,
   }
 
-  file { "${apache::params::root}/html/index.html":
+  file { "${apache::params::vroot}/html/index.html":
     ensure  => present,
     owner   => root,
     group   => root,

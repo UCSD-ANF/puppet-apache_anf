@@ -12,7 +12,15 @@ class apache::params {
     'Solaris'       => 'cswapache2:default',
   }
 
-  $root = $::apache_root ? {
+  # ServerRoot
+  $sroot = $::operatingsystem ? {
+    /RedHat|Centos/ => '/etc/httpd',
+    /Debian|Ubuntu/ => '/etc/apache2',
+    'Solaris'       => '/opt/csw/apache2',
+  }
+
+  # Base Directory for vhosts
+  $vroot = $::apache_root ? {
     "" => $::operatingsystem ? {
       /RedHat|CentOS/ => '/var/www/vhosts',
       /Debian|Ubuntu/ => '/var/www',
