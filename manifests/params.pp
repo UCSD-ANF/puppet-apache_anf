@@ -29,13 +29,10 @@ class apache::params {
     default => $::apache_root
   }
 
-  $default_vhost_dir = $::apache_default_vhost_dir ? {
-    "" => $::operatingsystem ? {
-      /RedHat|CentOS/ => '/var/www',
-      /Debian|Ubuntu/ => '/var/www',
-      Solaris         => '/opt/csw/apache2/share/htdocs',
-    },
-    default => $::apache_default_vhost_dir,
+  $default_vhost_dir = $::operatingsystem ? {
+    /RedHat|CentOS/ => '/var/www/html',
+    /Debian|Ubuntu/ => '/var/www/html',
+    Solaris         => '/opt/csw/apache2/share/htdocs',
   }
 
   # Location of error dir includes
