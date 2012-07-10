@@ -118,5 +118,10 @@ class apache::solaris inherits apache::base {
     require => Package["apache"],
   }
 
+  # this module is statically compiled on debian and must be enabled here
+  apache::module {["log_config"]:
+    ensure => present,
+    notify => Exec["apache-graceful"],
+  }
 
 }
