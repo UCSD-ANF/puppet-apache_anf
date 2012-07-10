@@ -133,7 +133,7 @@ MaxRequestsPerChild  0
 # prevent Apache from glomming onto all bound IP addresses (0.0.0.0)
 #
 #Listen 12.34.56.78:80
-Include <%= scope.lookupvar('apache::params::conf') %>/ports.conf
+Include <%= scope.lookupvar('apache::params::confrel') %>ports.conf
 
 #
 # Dynamic Shared Object (DSO) Support
@@ -207,12 +207,12 @@ Include <%= scope.lookupvar('apache::params::conf') %>/ports.conf
 #LoadModule asis_module modules/mod_asis.so
 
 # Modules are loaded on-demand by puppet
-Include <%=scope.lookupvar('apache::params::conf')%>/mods-enabled/
+Include <%=scope.lookupvar('apache::params::confrel')%>mods-enabled/
 
 #
 # Load config files from the config directory "/etc/httpd/conf.d".
 #
-Include <%=scope.lookupvar('apache::params::conf')%>/conf.d/*.conf
+Include <%=scope.lookupvar('apache::params::confrel')%>conf.d/*.conf
 
 #
 # ExtendedStatus controls whether Apache will generate "full" status
@@ -474,7 +474,7 @@ HostnameLookups Off
 # logged here.  If you *do* define an error logfile for a <VirtualHost>
 # container, that host's errors will be logged there and not here.
 #
-#ErrorLog logs/error_log
+ErrorLog <%=scope.lookupvar('apache::params::logsrel')%>error_log
 
 #
 # LogLevel: Control the number of messages logged to the error_log.
@@ -503,7 +503,7 @@ LogFormat "%{User-agent}i" agent
 # define per-<VirtualHost> access logfiles, transactions will be
 # logged therein and *not* in this file.
 #
-CustomLog logs/access_log common
+CustomLog <%=scope.lookupvar('apache::params::logsrel')%>access_log common
 
 #
 # If you would like to have separate agent and referer logfiles, uncomment
@@ -516,7 +516,7 @@ CustomLog logs/access_log common
 # For a single logfile with access, agent, and referer information
 # (Combined Logfile Format), use the following directive:
 #
-CustomLog logs/access_log combined
+CustomLog <%=scope.lookupvar('apache::params::logsrel')%>access_log combined
 
 #
 # Optionally add a line containing the server version and virtual host
@@ -995,5 +995,5 @@ BrowserMatch "^Dreamweaver-WebDAV-SCM1" redirect-carefully
 #    CustomLog logs/dummy-host.example.com-access_log common
 #</VirtualHost>
 
-Include <%=scope.lookupvar('apache::params::conf')%>/sites-enabled/
+Include <%=scope.lookupvar('apache::params::confrel')%>sites-enabled/
 

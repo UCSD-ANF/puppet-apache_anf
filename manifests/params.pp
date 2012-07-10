@@ -60,10 +60,26 @@ class apache::params {
     Solaris         => '/opt/csw/apache2/etc',
   }
 
+  # Location of additional conf files relative to sroot
+  # Trailing slash is intentional
+  $confrel = $::operatingsystem ? {
+    /RedHat|CentOS/ => '',
+    /Debian|Ubuntu/ => '',
+    Solaris         => 'etc/',
+  }
+
   $log = $::operatingsystem ? {
     /RedHat|CentOS/ => '/var/log/httpd',
     /Debian|Ubuntu/ => '/var/log/apache2',
     Solaris         => '/opt/csw/apache2/var/log',
+  }
+
+  # Location of log files relative to sroot
+  # Trailing slash is intentional
+  $logsrel = $::operatingsystem ? {
+    /RedHat|CentOS/ => 'logs/',
+    /Debian|Ubuntu/ => 'logs/',
+    Solaris         => 'var/log',
   }
 
   $access_log = $::operatingsystem ? {
