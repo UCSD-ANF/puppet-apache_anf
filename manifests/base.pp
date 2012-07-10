@@ -53,7 +53,7 @@ class apache::base {
   }
 
   group { "apache group":
-    name    => $apache::params::user,
+    name    => $apache::params::group,
     ensure  => present,
     require => Package["apache"],
   }
