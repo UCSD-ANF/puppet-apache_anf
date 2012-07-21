@@ -17,6 +17,10 @@ class apache {
   case $operatingsystem {
     Debian,Ubuntu:  { include apache::debian}
     RedHat,CentOS:  { include apache::redhat}
+    Solaris:        {
+      Package { provider => 'pkgutil' }
+      include apache::solaris
+    }
     default: { fail "Unsupported operatingsystem ${operatingsystem}" }
   }
 }

@@ -1,0 +1,1 @@
+LoadModule mime_module libexec/mod_mime.so

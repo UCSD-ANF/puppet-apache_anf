@@ -1,0 +1,1 @@
+LoadModule proxy_balancer_module libexec/mod_proxy_balancer.so

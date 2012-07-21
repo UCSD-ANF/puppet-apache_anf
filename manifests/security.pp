@@ -1,14 +1,17 @@
 class apache::security {
 
+  include apache::params
+
   case $operatingsystem {
 
     RedHat,CentOS: {
+      $manage_module = true
       package { "mod_security":
         ensure => present,
         alias => "apache-mod_security",
       }
 
-      file { "/etc/httpd/conf.d/mod_security.conf":
+      file { "${apache::params::conf}/conf.d/mod_security.conf":
         ensure  => present,
         content => "# file managed by puppet
 
@@ -22,16 +25,24 @@ class apache::security {
     }
 
     Debian: {
+      $manage_module = true
       package { "libapache-mod-security":
         ensure => present,
         alias => "apache-mod_security",
       }
     }
+
+    default : {
+      $manage_module = false
+      notify ( "${modulename} is not supported on ${::operatingsystem}")
+    }
   }
 
-  apache::module { ["unique_id", "security"]:
-    ensure => present,
-    require => Package["apache-mod_security"],
+  if $manage_module {
+    apache::module { ["unique_id", "security"]:
+      ensure => present,
+      require => Package["apache-mod_security"],
+    }
   }
 
 }

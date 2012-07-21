@@ -3,21 +3,22 @@ define apache::aw-stats($ensure=present, $aliases=[]) {
   include apache::params
 
   # used in ERB template
-  $wwwroot = $apache::params::root
+  $wwwroot = $apache::params::sroot
 
-  file { "/etc/awstats/awstats.${name}.conf":
+  file { "${apache::params::awstats_conf_dir}/awstats.${name}.conf":
     ensure  => $ensure,
     content => template("apache/awstats.erb"),
     require => [Package["apache"], Class["apache::awstats"]],
   }
 
-  file { "${apache::params::root}/${name}/conf/awstats.conf":
+  file { "${apache::params::vroot}/${name}/conf/awstats.conf":
     ensure  => $ensure,
     owner   => root,
     group   => root,
     source  => $operatingsystem ? {
       /RedHat|CentOS/ => "puppet:///modules/${module_name}/awstats.rh.conf",
       /Debian|Ubuntu/ => "puppet:///modules/${module_name}/awstats.deb.conf",
+      'Solaris'       => "puppet:///modules/${module_name}/awstats.solaris.conf",
     },
     seltype => $operatingsystem ? {
       "RedHat" => "httpd_config_t",

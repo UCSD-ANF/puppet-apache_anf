@@ -3,8 +3,9 @@ class apache::administration {
   include apache::params
 
   $distro_specific_apache_sudo = $operatingsystem ? {
-    /RedHat|CentOS/ => "/usr/sbin/apachectl, /sbin/service ${apache::params::pkg}",
+    /RedHat|CentOS/ => "/usr/sbin/apachectl, /sbin/service ${apache::params::service}",
     /Debian|Ubuntu/ => "/usr/sbin/apache2ctl",
+    'Solaris'       => "/opt/csw/apache2/sbin/apachectl, /usr/sbin/svcadm ${apache::params::service}",
   }
 
   group { "apache-admin":

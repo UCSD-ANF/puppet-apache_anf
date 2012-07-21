@@ -28,8 +28,8 @@ class apache::base {
     force   => true,
   }
 
-  file {"root directory":
-    path => $apache::params::root,
+  file {"vroot directory":
+    path => $apache::params::vroot,
     ensure => directory,
     mode => 755,
     owner => "root",
@@ -50,11 +50,10 @@ class apache::base {
     name    => $apache::params::user,
     ensure  => present,
     require => Package["apache"],
-    shell   => "/sbin/nologin",
   }
 
   group { "apache group":
-    name    => $apache::params::user,
+    name    => $apache::params::group,
     ensure  => present,
     require => Package["apache"],
   }
@@ -65,7 +64,7 @@ class apache::base {
   }
 
   service { "apache":
-    name       => $apache::params::pkg,
+    name       => $apache::params::service,
     ensure     => running,
     enable     => true,
     hasrestart => true,
