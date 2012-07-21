@@ -1,0 +1,1 @@
+LoadModule mem_cache_module libexec/mod_mem_cache.so

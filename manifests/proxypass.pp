@@ -35,11 +35,11 @@ Example usage:
 
 */
 define apache::proxypass (
-  $ensure="present", 
-  $location="", 
-  $url="", 
-  $params=[], 
-  $filename="", 
+  $ensure="present",
+  $location="",
+  $url="",
+  $params=[],
+  $filename="",
   $vhost
 ) {
 
@@ -64,8 +64,8 @@ define apache::proxypass (
       default  => undef,
     },
     name    => $filename ? {
-      ""      => "${apache::params::root}/${vhost}/conf/proxypass-${fname}.conf",
-      default => "${apache::params::root}/${vhost}/conf/${filename}",
+      ""      => "${apache::params::vroot}/${vhost}/conf/proxypass-${fname}.conf",
+      default => "${apache::params::vroot}/${vhost}/conf/${filename}",
     },
     notify  => Exec["apache-graceful"],
     require => Apache::Vhost[$vhost],

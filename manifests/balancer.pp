@@ -94,8 +94,8 @@ define apache::balancer (
       default  => undef,
     },
     name    => $filename ? {
-      ""      => "${apache::params::root}/${vhost}/conf/balancer-${fname}.conf",
-      default => "${apache::params::root}/${vhost}/conf/${filename}",
+      ""      => "${apache::params::vroot}/${vhost}/conf/balancer-${fname}.conf",
+      default => "${apache::params::vroot}/${vhost}/conf/${filename}",
     },
     notify  => Exec["apache-graceful"],
     require => Apache::Vhost[$vhost],

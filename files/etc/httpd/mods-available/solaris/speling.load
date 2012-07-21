@@ -1,0 +1,1 @@
+LoadModule speling_module libexec/mod_speling.so

@@ -1,0 +1,1 @@
+LoadModule userdir_module libexec/mod_userdir.so

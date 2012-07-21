@@ -1,0 +1,1 @@
+LoadModule authnz_ldap_module libexec/mod_authnz_ldap.so

@@ -46,7 +46,7 @@ define apache::directive ($ensure="present", $directive="", $filename="", $vhost
 
   apache::conf {$name:
     ensure        => $ensure,
-    path          => "${apache::params::root}/${vhost}/conf",
+    path          => "${apache::params::vroot}/${vhost}/conf",
     prefix        => 'directive',
     filename      => $filename,
     configuration => $directive,
