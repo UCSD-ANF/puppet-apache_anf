@@ -42,6 +42,18 @@ class apache::params {
     'Solaris'       => '/opt/csw/apache2/share/error',
   }
 
+  # Location of FancyIndexing Icons
+  $icons = $::operatingsystem ? {
+    Solaris => '/opt/csw/apache2/share/icons',
+    default => '/var/www/icons',
+  }
+
+  # Location of default cgi-bin directory
+  $cgibindir = $::operatingsystem ? {
+    Solaris => '/opt/csw/apache2/share/cgi-bin',
+    default => '/var/www/cgi-bin',
+  }
+
   $user = $::operatingsystem ? {
     /RedHat|CentOS/ => 'apache',
     /Debian|Ubuntu/ => 'www-data',
