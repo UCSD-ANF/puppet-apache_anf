@@ -529,21 +529,21 @@ CustomLog <%=scope.lookupvar('apache::params::logsrel')%>access_log combined
 ServerSignature On
 
 #
-# Aliases: Add here as many aliases as you need (with no limit). The format is 
+# Aliases: Add here as many aliases as you need (with no limit). The format is
 # Alias fakename realname
 #
 # Note that if you include a trailing / on fakename then the server will
 # require it to be present in the URL.  So "/icons" isn't aliased in this
-# example, only "/icons/".  If the fakename is slash-terminated, then the 
-# realname must also be slash terminated, and if the fakename omits the 
+# example, only "/icons/".  If the fakename is slash-terminated, then the
+# realname must also be slash terminated, and if the fakename omits the
 # trailing slash, the realname must also omit it.
 #
 # We include the /icons/ alias for FancyIndexed directory listings.  If you
 # do not use FancyIndexing, you may comment this out.
 #
-Alias /icons/ "/var/www/icons/"
+Alias /icons/ "<%=scope.lookupvar('apache::params::icons')%>/"
 
-<Directory "/var/www/icons">
+<Directory "<%=scope.lookupvar('apache::params::icons')%>">
     Options Indexes MultiViews
     AllowOverride None
     Order allow,deny
@@ -552,7 +552,7 @@ Alias /icons/ "/var/www/icons/"
 
 #
 # WebDAV module configuration section.
-# 
+#
 <IfModule mod_dav_fs.c>
     # Location of the WebDAV lock database.
     DAVLockDB /var/lib/dav/lockdb
@@ -566,13 +566,13 @@ Alias /icons/ "/var/www/icons/"
 # The same rules about trailing "/" apply to ScriptAlias directives as to
 # Alias.
 #
-#ScriptAlias /cgi-bin/ "/var/www/cgi-bin/"
+#ScriptAlias /cgi-bin/ "<%=scope.lookupvar('apache::params::cgibindir')%>/"
 
 #
-# "/var/www/cgi-bin" should be changed to whatever your ScriptAliased
+# "<%=scope.lookupvar('apache::params::cgibindir')%>" should be changed to whatever your ScriptAliased
 # CGI directory exists, if you have that configured.
 #
-<Directory "/var/www/cgi-bin">
+<Directory "<%=scope.lookupvar('apache::params::cgibindir')%>">
     AllowOverride None
     Options None
     Order allow,deny
@@ -835,7 +835,7 @@ AddOutputFilter INCLUDES .shtml
 #   Alias /error/include/ "/your/include/path/"
 #
 # which allows you to create your own set of files by starting with the
-# /var/www/error/include/ files and
+# <%=scope.lookupvar('apache::params::error')%>/include/ files and
 # copying them to /your/include/path/, even on a per-VirtualHost basis.
 #
 
