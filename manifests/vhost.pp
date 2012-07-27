@@ -68,7 +68,7 @@ define apache::vhost (
           CentOS => "httpd_sys_content_t",
           default => undef,
         },
-        require => File["root directory"],
+        require => File["vroot directory"],
       }
 
       file { "${apache::params::vroot}/${name}/conf":
