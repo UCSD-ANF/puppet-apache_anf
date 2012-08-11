@@ -16,7 +16,7 @@
   Include <%= wwwroot %>/<%= name%>/conf/*.conf
 
 <% if cgipath -%>
-  ScriptAlias /cgi-bin/ <%= cgipath %>
+  ScriptAlias /cgi-bin/ <%= cgipath %>/
   <Directory <%= cgipath %>>
     Options +ExecCGI
     AddHandler cgi-script .cgi

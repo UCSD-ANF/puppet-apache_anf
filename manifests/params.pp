@@ -1,5 +1,11 @@
 class apache::params {
 
+  $supported_os = ['RedHat','CentOS','Debian','Ubuntu','Solaris']
+
+  if ! ( $::operatingsystem in $supported_os ) {
+    fail("unsupported operatingsystem \"$::operatingsystem\"")
+  }
+
   $pkg = $::operatingsystem ? {
     /RedHat|CentOS/ => 'httpd',
     /Debian|Ubuntu/ => 'apache2',
@@ -91,7 +97,7 @@ class apache::params {
   $logsrel = $::operatingsystem ? {
     /RedHat|CentOS/ => 'logs/',
     /Debian|Ubuntu/ => 'logs/',
-    Solaris         => 'var/log',
+    Solaris         => 'var/log/',
   }
 
   $access_log = $::operatingsystem ? {

@@ -24,7 +24,8 @@ class apache::solaris inherits apache::base {
 
   # Need this for htpasswd and friends
   package{'apache2_utils' :
-    ensure => installed,
+    ensure   => installed,
+    provider => 'pkgutil',
   }
 
   # $httpd_pid_file is used in template logrotate-httpd.erb

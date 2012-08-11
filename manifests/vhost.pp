@@ -36,10 +36,17 @@ define apache::vhost (
     default => $docroot,
   }
 
-  $cgipath = $cgibin ? {
-    true    => "${wwwroot}/${name}/cgi-bin/",
+  $tmp_cgipath = $cgibin ? {
+    true    => "${wwwroot}/${name}/cgi-bin",
     false   => false,
     default => $cgibin,
+  }
+
+  # trim trailing slash
+  if $tmp_cgipath =~ /(.*)\/$/ {
+    $cgipath = $1
+  } else {
+    $cgipath = $tmp_cgipath
   }
 
   case $ensure {
