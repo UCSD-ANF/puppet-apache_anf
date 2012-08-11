@@ -2,9 +2,6 @@ require 'spec_helper'
 
 describe 'apache::vhost' do
   let(:title) { 'foo.example.com' }
-  let(:preconditions) do
-    "include apache"
-  end
 
   context 'on an unsupported os' do
     let(:facts) do
