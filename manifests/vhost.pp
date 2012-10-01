@@ -237,7 +237,7 @@ define apache::vhost (
           File["${apache::params::vroot}/${name}/logs"],
           File["${apache::params::vroot}/${name}/conf"]
         ],
-        unless  => "/bin/sh -c '[ -L ${apache::params::conf}/sites-enabled/${name} ] \\
+        unless  => "/bin/bash -c '[ -L ${apache::params::conf}/sites-enabled/${name} ] \\
           && [ ${apache::params::conf}/sites-enabled/${name} -ef ${apache::params::conf}/sites-available/${name} ]'",
       }
     }
@@ -247,7 +247,7 @@ define apache::vhost (
         ensure  => absent,
         require => Exec["disable vhost ${name}"]
       }
-      
+
       file { "${apache::params::conf}/sites-available/${name}":
         ensure  => absent,
         require => Exec["disable vhost ${name}"]
@@ -270,7 +270,7 @@ define apache::vhost (
           redhat => File["${apache::params::a2ensite}"],
           CentOS => File["${apache::params::a2ensite}"],
           default => Package[$apache::params::pkg]}],
-        onlyif => "/bin/sh -c '[ -L ${apache::params::conf}/sites-enabled/${name} ] \\
+        onlyif => "/bin/bash -c '[ -L ${apache::params::conf}/sites-enabled/${name} ] \\
           && [ ${apache::params::conf}/sites-enabled/${name} -ef ${apache::params::conf}/sites-available/${name} ]'",
       }
    }
@@ -280,7 +280,7 @@ define apache::vhost (
         command => "a2dissite ${name}",
         notify  => Exec["apache-graceful"],
         require => Package[$apache::params::pkg],
-        onlyif => "/bin/sh -c '[ -L ${apache::params::conf}/sites-enabled/${name} ] \\
+        onlyif => "/bin/bash -c '[ -L ${apache::params::conf}/sites-enabled/${name} ] \\
           && [ ${apache::params::conf}/sites-enabled/${name} -ef ${apache::params::conf}/sites-available/${name} ]'",
       }
 
