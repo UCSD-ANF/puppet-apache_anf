@@ -1,4 +1,4 @@
-Version: ANF20121001-1
+Version: ANF20121001-2
 Types
 #####
 
@@ -8,11 +8,11 @@ Definitions related to the apache authentication should always be in the form :
 
 apache::auth::type::provider::authorization
 
-To be consistent with the three types of Apache modules involved in the 
+To be consistent with the three types of Apache modules involved in the
 authentication and authorization process :
 http://httpd.apache.org/docs/2.2/howto/auth.html
 
-The main advantages of this new way to manage authentication are the possibility 
+The main advantages of this new way to manage authentication are the possibility
 of sharing resources between virtual hosts and access restrictions
 
 ######################################
@@ -37,7 +37,7 @@ Example:
     username => "user2",
     cryptPassword => 'kdrY191UyPY3E', # (htpasswd -ndb user2 user2)
   }
- 
+
 2. create one or more groups :
 
   apache::auth::htgroup {"group1 in /var/www/camptocamp.com/private/htgroup":
