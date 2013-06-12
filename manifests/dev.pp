@@ -16,7 +16,7 @@ class apache::dev {
     default         => Package['gcc'],
   }
 
-  $manage_package_name => $::operatingsystem ? {
+  $manage_package_name = $::operatingsystem ? {
     /RedHat|CentOS/ => 'httpd-devel',
     Solaris         => 'apache2_dev',
     /Debian|Ubuntu/ => undef, # have to select between mpm and prefork dev pkg
