@@ -24,9 +24,9 @@ class apache::dev {
 
   if $manage_package_name {
     package { "apache-devel":
-      name     => $manage_package_name,
-      ensure   => present,
-      requires => $manage_package_requires,
+      name    => $manage_package_name,
+      ensure  => present,
+      require => $manage_package_requires,
     }
   }
 }
