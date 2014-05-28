@@ -1,10 +1,10 @@
-class apache::solaris inherits apache::base {
+class apache_anf::solaris inherits apache_anf::base {
 
-  include apache::params
+  include apache_anf::params
 
-  # BEGIN inheritance from apache::base
+  # BEGIN inheritance from apache_anf::base
   Exec['apache-graceful'] {
-    command => "/usr/sbin/svcadm refresh ${apache::params::service}",
+    command => "/usr/sbin/svcadm refresh ${apache_anf::params::service}",
     onlyif  => '/opt/csw/apache2/sbin/apachectl configtest',
   }
 
@@ -37,7 +37,7 @@ class apache::solaris inherits apache::base {
     content => template('apache/logrotate-httpd.erb'),
   }
 
-  file { "${apache::params::conf}/conf.d":
+  file { "${apache_anf::params::conf}/conf.d":
     ensure  => directory,
     owner   => 'root',
     group   => 'bin',
@@ -46,14 +46,14 @@ class apache::solaris inherits apache::base {
   }
 
   File['default status module configuration'] {
-    path    => "${apache::params::conf}/conf.d/status.conf",
+    path    => "${apache_anf::params::conf}/conf.d/status.conf",
     source  => "puppet:///modules/${module_name}/etc/httpd/conf/status.conf",
-    require => File["${apache::params::conf}/conf.d"],
+    require => File["${apache_anf::params::conf}/conf.d"],
   }
 
-  # END inheritance from apache::base
+  # END inheritance from apache_anf::base
 
-  file { $apache::params::default_vhost_dir:
+  file { $apache_anf::params::default_vhost_dir:
     ensure  => 'directory',
     owner   => 'root',
     group   => 'bin',
@@ -88,9 +88,9 @@ class apache::solaris inherits apache::base {
   }
 
   file { [
-      "${apache::params::conf}/sites-available",
-      "${apache::params::conf}/sites-enabled",
-      "${apache::params::conf}/mods-enabled"
+      "${apache_anf::params::conf}/sites-available",
+      "${apache_anf::params::conf}/sites-enabled",
+      "${apache_anf::params::conf}/mods-enabled"
     ]:
     ensure => directory,
     mode => 644,
@@ -99,7 +99,7 @@ class apache::solaris inherits apache::base {
     require => Package["apache"],
   }
 
-  file { "${apache::params::conf}/httpd.conf":
+  file { "${apache_anf::params::conf}/httpd.conf":
     ensure => present,
     content => template("apache/httpd.conf.erb"),
     notify  => Service["apache"],
@@ -109,7 +109,7 @@ class apache::solaris inherits apache::base {
   # the following command was used to generate the content of the directory:
   # egrep '(^|#)LoadModule' /opt/csw/apache2/etc/httpd.conf.CSW | gsed -r 's|#?(.+ (.+)_module .+)|echo "\1" > mods-available/solaris/\2.load|' | sh
   # ssl.load was then changed to a template (see apache-ssl-redhat.pp)
-  file { "${apache::params::conf}/mods-available":
+  file { "${apache_anf::params::conf}/mods-available":
     ensure => directory,
     source => "puppet:///modules/${module_name}/etc/httpd/mods-available/solaris/",
     recurse => true,
@@ -120,7 +120,7 @@ class apache::solaris inherits apache::base {
   }
 
   # this module is statically compiled on debian and must be enabled here
-  apache::module {["log_config"]:
+  apache_anf::module {["log_config"]:
     ensure => present,
     notify => Exec["apache-graceful"],
   }

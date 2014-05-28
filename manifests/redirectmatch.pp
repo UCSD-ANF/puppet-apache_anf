@@ -1,6 +1,6 @@
 /*
 
-== Definition: apache::redirectmatch
+== Definition: apache_anf::redirectmatch
 
 Convenient way to declare a RedirectMatch directive in a virtualhost context.
 
@@ -20,18 +20,18 @@ Requires:
 
 Example usage:
 
-  apache::redirectmatch { "example":
+  apache_anf::redirectmatch { "example":
     regex => "^/(foo|bar)",
     url   => "http://foobar.example.com/",
     vhost => "www.example.com",
   }
 
 */
-define apache::redirectmatch ($ensure="present", $regex, $url, $filename="", $vhost) {
+define apache_anf::redirectmatch ($ensure="present", $regex, $url, $filename="", $vhost) {
 
   $fname = regsubst($name, "\s", "_", "G")
 
-  include apache::params
+  include apache_anf::params
 
   file { "${name} redirect on ${vhost}":
     ensure  => $ensure,
@@ -42,8 +42,8 @@ define apache::redirectmatch ($ensure="present", $regex, $url, $filename="", $vh
       default  => undef,
     },
     name    => $filename ? {
-      ""      => "${apache::params::vroot}/${vhost}/conf/redirect-${fname}.conf",
-      default => "${apache::params::vroot}/${vhost}/conf/${filename}",
+      ""      => "${apache_anf::params::vroot}/${vhost}/conf/redirect-${fname}.conf",
+      default => "${apache_anf::params::vroot}/${vhost}/conf/${filename}",
     },
     notify  => Exec["apache-graceful"],
     require => Apache::Vhost[$vhost],

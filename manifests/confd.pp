@@ -1,9 +1,9 @@
 /*
 
-== Definition: apache::confd
+== Definition: apache_anf::confd
 
-Convenient wrapper around apache::conf definition to put configuration snippets in
-${apache::params::conf}/conf.d directory
+Convenient wrapper around apache_anf::conf definition to put configuration snippets in
+${apache_anf::params::conf}/conf.d directory
 
 Parameters:
 - *ensure*: present/absent.
@@ -17,18 +17,18 @@ Requires:
 
 Example usage:
 
-  apache::confd { "example 1":
+  apache_anf::confd { "example 1":
     ensure        => present,
     path          => /var/www/foo/conf
     configuration => "WSGIPythonEggs /var/cache/python-eggs",
   }
 
 */
-define apache::confd($ensure=present, $configuration, $filename="") {
-  include apache::params
-  apache::conf {$name:
+define apache_anf::confd($ensure=present, $configuration, $filename="") {
+  include apache_anf::params
+  apache_anf::conf {$name:
     ensure        => $ensure,
-    path          => "${apache::params::conf}/conf.d",
+    path          => "${apache_anf::params::conf}/conf.d",
     filename      => $filename,
     configuration => $configuration,
     notify        => Service["apache"],

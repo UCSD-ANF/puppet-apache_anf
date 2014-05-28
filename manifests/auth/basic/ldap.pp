@@ -1,4 +1,4 @@
-define apache::auth::basic::ldap (
+define apache_anf::auth::basic::ldap (
   $ensure="present", 
   $authname=false,
   $vhost,
@@ -18,14 +18,14 @@ define apache::auth::basic::ldap (
 
   $fname = regsubst($name, "\s", "_", "G")
 
-  include apache::params
+  include apache_anf::params
 
   if defined(Apache::Module["ldap"]) {} else {
-    apache::module {"ldap": }
+    apache_anf::module {"ldap": }
   }
 
   if defined(Apache::Module["authnz_ldap"]) {} else {
-    apache::module {"authnz_ldap": }
+    apache_anf::module {"authnz_ldap": }
   }
 
   if $authname {
@@ -34,7 +34,7 @@ define apache::auth::basic::ldap (
     $_authname = $name
   }
 
-  file { "${apache::params::root}/${vhost}/conf/auth-basic-ldap-${fname}.conf":
+  file { "${apache_anf::params::root}/${vhost}/conf/auth-basic-ldap-${fname}.conf":
     ensure => $ensure,
     content => template("apache/auth-basic-ldap.erb"),
     seltype => $operatingsystem ? {

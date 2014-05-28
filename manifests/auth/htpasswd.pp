@@ -1,4 +1,4 @@
-define apache::auth::htpasswd (
+define apache_anf::auth::htpasswd (
   $ensure="present", 
   $vhost=false,
   $userFileLocation=false,
@@ -7,13 +7,13 @@ define apache::auth::htpasswd (
   $cryptPassword=false,
   $clearPassword=false){
 
-  include apache::params
+  include apache_anf::params
  
   if $userFileLocation {
     $_userFileLocation = $userFileLocation
   } else {
     if $vhost {
-      $_userFileLocation = "${apache::params::root}/${vhost}/private"
+      $_userFileLocation = "${apache_anf::params::root}/${vhost}/private"
     } else {
       fail "parameter vhost is require !"
     }

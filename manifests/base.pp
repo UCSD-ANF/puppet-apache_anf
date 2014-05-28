@@ -1,27 +1,27 @@
 /*
 
-== Class: apache::base
+== Class: apache_anf::base
 
-Common building blocks between apache::debian and apache::redhat.
+Common building blocks between apache_anf::debian and apache_anf::redhat.
 
 It shouldn't be necessary to directly include this class.
 
 */
-class apache::base {
+class apache_anf::base {
 
-  include apache::params
+  include apache_anf::params
   include concat::setup
 
-  $access_log = $apache::params::access_log
-  $error_log  = $apache::params::error_log
+  $access_log = $apache_anf::params::access_log
+  $error_log  = $apache_anf::params::error_log
 
-  concat {"${apache::params::conf}/ports.conf":
+  concat {"${apache_anf::params::conf}/ports.conf":
     notify  => Service['apache'],
     require => Package['apache'],
   }
 
   # removed this folder originally created by common::concatfilepart
-  file {"${apache::params::conf}/ports.conf.d":
+  file {"${apache_anf::params::conf}/ports.conf.d":
     ensure  => absent,
     purge   => true,
     recurse => true,
@@ -29,7 +29,7 @@ class apache::base {
   }
 
   file {"vroot directory":
-    path => $apache::params::vroot,
+    path => $apache_anf::params::vroot,
     ensure => directory,
     mode => 755,
     owner => "root",
@@ -38,7 +38,7 @@ class apache::base {
   }
 
   file {"log directory":
-    path => $apache::params::log,
+    path => $apache_anf::params::log,
     ensure => directory,
     mode => 700,
     owner => "root",
@@ -47,24 +47,24 @@ class apache::base {
   }
 
   user { "apache user":
-    name    => $apache::params::user,
+    name    => $apache_anf::params::user,
     ensure  => present,
     require => Package["apache"],
   }
 
   group { "apache group":
-    name    => $apache::params::group,
+    name    => $apache_anf::params::group,
     ensure  => present,
     require => Package["apache"],
   }
 
   package { "apache":
-    name   => $apache::params::pkg,
+    name   => $apache_anf::params::pkg,
     ensure => installed,
   }
 
   service { "apache":
-    name       => $apache::params::service,
+    name       => $apache_anf::params::service,
     ensure     => running,
     enable     => true,
     hasrestart => true,
@@ -81,10 +81,10 @@ class apache::base {
     require => Package["apache"],
   }
 
-  apache::listen { "80": ensure => present }
-  apache::namevhost { "*:80": ensure => present }
+  apache_anf::listen { "80": ensure => present }
+  apache_anf::namevhost { "*:80": ensure => present }
 
-  apache::module {["alias", "auth_basic", "authn_file", "authz_default", "authz_groupfile", "authz_host", "authz_user", "autoindex", "dir", "env", "mime", "negotiation", "rewrite", "setenvif", "status", "cgi"]:
+  apache_anf::module {["alias", "auth_basic", "authn_file", "authz_default", "authz_groupfile", "authz_host", "authz_user", "autoindex", "dir", "env", "mime", "negotiation", "rewrite", "setenvif", "status", "cgi"]:
     ensure => present,
     notify => Exec["apache-graceful"],
   }
@@ -100,24 +100,24 @@ class apache::base {
   }
 
   file {"default virtualhost":
-    path    => "${apache::params::conf}/sites-available/default-vhost",
+    path    => "${apache_anf::params::conf}/sites-available/default-vhost",
     ensure  => present,
     content => template("apache/default-vhost.erb"),
     require => Package["apache"],
     notify  => Exec["apache-graceful"],
-    before  => File["${apache::params::conf}/sites-enabled/000-default-vhost"],
+    before  => File["${apache_anf::params::conf}/sites-enabled/000-default-vhost"],
     mode    => 644,
   }
 
   if $apache_disable_default_vhost {
-    file { "${apache::params::conf}/sites-enabled/000-default-vhost":
+    file { "${apache_anf::params::conf}/sites-enabled/000-default-vhost":
       ensure => absent,
       notify => Exec['apache-graceful'],
     }
   } else {
-    file { "${apache::params::conf}/sites-enabled/000-default-vhost":
+    file { "${apache_anf::params::conf}/sites-enabled/000-default-vhost":
       ensure => link,
-      target => "${apache::params::conf}/sites-available/default-vhost",
+      target => "${apache_anf::params::conf}/sites-available/default-vhost",
       notify => Exec['apache-graceful'],
     }
   }
@@ -136,9 +136,9 @@ class apache::base {
     source => "puppet:///modules/${module_name}/usr/local/bin/htgroup",
   }
 
-  file { ["${apache::params::conf}/sites-enabled/default",
-          "${apache::params::conf}/sites-enabled/000-default",
-          "${apache::params::conf}/sites-enabled/default-ssl"]:
+  file { ["${apache_anf::params::conf}/sites-enabled/default",
+          "${apache_anf::params::conf}/sites-enabled/000-default",
+          "${apache_anf::params::conf}/sites-enabled/default-ssl"]:
     ensure => absent,
     notify => Exec["apache-graceful"],
   }

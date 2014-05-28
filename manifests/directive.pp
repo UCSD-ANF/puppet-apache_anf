@@ -1,8 +1,8 @@
 /*
 
-== Definition: apache::directive
+== Definition: apache_anf::directive
 
-Convenient wrapper around apache::conf resources to add random configuration
+Convenient wrapper around apache_anf::conf resources to add random configuration
 snippets to an apache virtualhost.
 
 Parameters:
@@ -20,7 +20,7 @@ Requires:
 
 Example usage:
 
-  apache::directive { "example 1":
+  apache_anf::directive { "example 1":
     ensure    => present,
     directive => "
       RewriteEngine on
@@ -29,24 +29,24 @@ Example usage:
     vhost     => "www.example.com",
   }
 
-  apache::directive { "example 2":
+  apache_anf::directive { "example 2":
     ensure    => present,
     directive => content("example/snippet.erb"),
     vhost     => "www.example.com",
   }
 
 */
-define apache::directive ($ensure="present", $directive="", $filename="", $vhost) {
+define apache_anf::directive ($ensure="present", $directive="", $filename="", $vhost) {
 
-  include apache::params
+  include apache_anf::params
 
   if ($ensure == 'present' and $directive == '') {
     fail 'empty "directive" parameter'
   }
 
-  apache::conf {$name:
+  apache_anf::conf {$name:
     ensure        => $ensure,
-    path          => "${apache::params::vroot}/${vhost}/conf",
+    path          => "${apache_anf::params::vroot}/${vhost}/conf",
     prefix        => 'directive',
     filename      => $filename,
     configuration => $directive,

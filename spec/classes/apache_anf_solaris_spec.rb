@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'apache::solaris' do
+describe 'apache_anf::solaris' do
 
   let(:facts) do
     {
@@ -11,7 +11,7 @@ describe 'apache::solaris' do
   end
 
   it do
-    should include_class('apache::params')
+    should contain_class('apache_anf::params')
 
     should contain_exec('apache-graceful').with(
       :command => '/usr/sbin/svcadm refresh cswapache2:default',

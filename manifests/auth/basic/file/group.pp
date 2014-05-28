@@ -1,4 +1,4 @@
-define apache::auth::basic::file::group (
+define apache_anf::auth::basic::file::group (
   $ensure="present", 
   $authname=false,
   $vhost,
@@ -9,22 +9,22 @@ define apache::auth::basic::file::group (
 
   $fname = regsubst($name, "\s", "_", "G")
 
-  include apache::params
+  include apache_anf::params
  
   if defined(Apache::Module["authn_file"]) {} else {
-    apache::module {"authn_file": }
+    apache_anf::module {"authn_file": }
   }
 
   if $authUserFile {
     $_authUserFile = $authUserFile
   } else {
-    $_authUserFile = "${apache::params::root}/${vhost}/private/htpasswd"
+    $_authUserFile = "${apache_anf::params::root}/${vhost}/private/htpasswd"
   }
 
   if $authGroupFile {
     $_authGroupFile = $authGroupFile
   } else {
-    $_authGroupFile = "${apache::params::root}/${vhost}/private/htgroup"
+    $_authGroupFile = "${apache_anf::params::root}/${vhost}/private/htgroup"
   }
 
   if $authname {
@@ -33,7 +33,7 @@ define apache::auth::basic::file::group (
     $_authname = $name
   }
 
-  file { "${apache::params::root}/${vhost}/conf/auth-basic-file-group-${fname}.conf":
+  file { "${apache_anf::params::root}/${vhost}/conf/auth-basic-file-group-${fname}.conf":
     ensure => $ensure,
     content => template("apache/auth-basic-file-group.erb"),
     seltype => $operatingsystem ? {

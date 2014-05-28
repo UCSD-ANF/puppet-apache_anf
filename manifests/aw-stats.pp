@@ -1,17 +1,17 @@
-define apache::aw-stats($ensure=present, $aliases=[]) {
+define apache_anf::aw-stats($ensure=present, $aliases=[]) {
 
-  include apache::params
+  include apache_anf::params
 
   # used in ERB template
-  $wwwroot = $apache::params::sroot
+  $wwwroot = $apache_anf::params::sroot
 
-  file { "${apache::params::awstats_conf_dir}/awstats.${name}.conf":
+  file { "${apache_anf::params::awstats_conf_dir}/awstats.${name}.conf":
     ensure  => $ensure,
     content => template("apache/awstats.erb"),
-    require => [Package["apache"], Class["apache::awstats"]],
+    require => [Package["apache"], Class["apache_anf::awstats"]],
   }
 
-  file { "${apache::params::vroot}/${name}/conf/awstats.conf":
+  file { "${apache_anf::params::vroot}/${name}/conf/awstats.conf":
     ensure  => $ensure,
     owner   => root,
     group   => root,

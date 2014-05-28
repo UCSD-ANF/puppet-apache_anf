@@ -1,4 +1,4 @@
-define apache::redhat::selinux() {
+define apache_anf::redhat::selinux() {
 
   case $name {
 

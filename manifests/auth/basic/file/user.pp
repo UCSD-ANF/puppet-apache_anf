@@ -1,4 +1,4 @@
-define apache::auth::basic::file::user (
+define apache_anf::auth::basic::file::user (
   $ensure="present", 
   $authname=false,
   $vhost,
@@ -8,16 +8,16 @@ define apache::auth::basic::file::user (
 
   $fname = regsubst($name, "\s", "_", "G")
 
-  include apache::params
+  include apache_anf::params
  
   if defined(Apache::Module["authn_file"]) {} else {
-    apache::module {"authn_file": }
+    apache_anf::module {"authn_file": }
   }
 
   if $authUserFile {
     $_authUserFile = $authUserFile
   } else {
-    $_authUserFile = "${apache::params::root}/${vhost}/private/htpasswd"
+    $_authUserFile = "${apache_anf::params::root}/${vhost}/private/htpasswd"
   }
 
   if $authname {
@@ -32,7 +32,7 @@ define apache::auth::basic::file::user (
     $_users = $users
   }
 
-  file {"${apache::params::root}/${vhost}/conf/auth-basic-file-user-${fname}.conf":
+  file {"${apache_anf::params::root}/${vhost}/conf/auth-basic-file-user-${fname}.conf":
     ensure => $ensure,
     content => template("apache/auth-basic-file-user.erb"),
     seltype => $operatingsystem ? {

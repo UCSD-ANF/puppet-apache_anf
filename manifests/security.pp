@@ -1,6 +1,6 @@
-class apache::security {
+class apache_anf::security {
 
-  include apache::params
+  include apache_anf::params
 
   case $operatingsystem {
 
@@ -11,7 +11,7 @@ class apache::security {
         alias => "apache-mod_security",
       }
 
-      file { "${apache::params::conf}/conf.d/mod_security.conf":
+      file { "${apache_anf::params::conf}/conf.d/mod_security.conf":
         ensure  => present,
         content => "# file managed by puppet
 
@@ -39,7 +39,7 @@ class apache::security {
   }
 
   if $manage_module {
-    apache::module { ["unique_id", "security"]:
+    apache_anf::module { ["unique_id", "security"]:
       ensure => present,
       require => Package["apache-mod_security"],
     }

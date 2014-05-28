@@ -1,6 +1,6 @@
 /*
 
-== Definition: apache::balancer
+== Definition: apache_anf::balancer
 
 Define a basic balanced proxy, to split requests between different backends,
 with an optional hot standby server.
@@ -30,7 +30,7 @@ Requires:
 
 Example usage:
 
-  apache::balancer { "my balanced service":
+  apache_anf::balancer { "my balanced service":
     location   => "/mywebapp/",
     proto      => "ajp",
     members    => [
@@ -44,7 +44,7 @@ Example usage:
   }
 
 */
-define apache::balancer (
+define apache_anf::balancer (
   $ensure="present",
   $location="",
   $proto="http",
@@ -58,29 +58,29 @@ define apache::balancer (
   # normalise name
   $fname = regsubst($name, "\s", "_", "G")
 
-  include apache::params
+  include apache_anf::params
 
   $balancer = "balancer://${fname}"
 
   if !defined(Apache::Module["proxy"]) {
-    apache::module {"proxy": }
+    apache_anf::module {"proxy": }
   }
 
   if !defined(Apache::Module["proxy_balancer"]) {
-    apache::module {"proxy_balancer": }
+    apache_anf::module {"proxy_balancer": }
   }
 
   # ensure proxy modules are enabled
   case $proto {
     http: {
       if !defined(Apache::Module["proxy_http"]) {
-        apache::module {"proxy_http": }
+        apache_anf::module {"proxy_http": }
       }
     }
 
     ajp: {
       if !defined(Apache::Module["proxy_ajp"]) {
-        apache::module {"proxy_ajp": }
+        apache_anf::module {"proxy_ajp": }
       }
     }
   }
@@ -94,8 +94,8 @@ define apache::balancer (
       default  => undef,
     },
     name    => $filename ? {
-      ""      => "${apache::params::vroot}/${vhost}/conf/balancer-${fname}.conf",
-      default => "${apache::params::vroot}/${vhost}/conf/${filename}",
+      ""      => "${apache_anf::params::vroot}/${vhost}/conf/balancer-${fname}.conf",
+      default => "${apache_anf::params::vroot}/${vhost}/conf/${filename}",
     },
     notify  => Exec["apache-graceful"],
     require => Apache::Vhost[$vhost],

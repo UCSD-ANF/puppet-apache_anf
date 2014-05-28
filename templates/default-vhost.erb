@@ -1,6 +1,6 @@
 # file managed by puppet
 <VirtualHost *:80>
-  DocumentRoot <%=scope.lookupvar("apache::params::default_vhost_dir")%>
+  DocumentRoot <%=scope.lookupvar("apache_anf::params::default_vhost_dir")%>
   ServerName localhost
 
   <Directory />
@@ -8,15 +8,15 @@
     AllowOverride None
   </Directory>
 
-  <Directory <%=scope.lookupvar("apache::params::default_vhost_dir")%>/>
+  <Directory <%=scope.lookupvar("apache_anf::params::default_vhost_dir")%>/>
     Options Indexes FollowSymLinks MultiViews
     AllowOverride None
     Order allow,deny
     allow from all
   </Directory>
 
-  ErrorLog <%= error_log %>
+  ErrorLog <%= @error_log %>
   LogLevel warn
-  CustomLog <%= access_log %> combined
+  CustomLog <%= @access_log %> combined
   ServerSignature Off
 </VirtualHost>

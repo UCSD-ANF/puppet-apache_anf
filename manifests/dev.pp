@@ -1,5 +1,5 @@
 #
-# == Class: apache::dev
+# == Class: apache_anf::dev
 #
 # Installs package(s) required to build apache modules using apxs.
 #
@@ -7,9 +7,9 @@
 #
 # Example usage:
 #
-#   include apache::dev
+#   include apache_anf::dev
 #
-class apache::dev {
+class apache_anf::dev {
 
   $manage_package_requires = $::osfamily ? {
     'Solaris'       => Package['gcc4'],

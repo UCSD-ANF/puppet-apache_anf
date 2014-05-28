@@ -1,11 +1,11 @@
-class apache::administration {
+class apache_anf::administration {
 
-  include apache::params
+  include apache_anf::params
 
   $distro_specific_apache_sudo = $operatingsystem ? {
-    /RedHat|CentOS/ => "/usr/sbin/apachectl, /sbin/service ${apache::params::service}",
+    /RedHat|CentOS/ => "/usr/sbin/apachectl, /sbin/service ${apache_anf::params::service}",
     /Debian|Ubuntu/ => "/usr/sbin/apache2ctl",
-    'Solaris'       => "/opt/csw/apache2/sbin/apachectl, /usr/sbin/svcadm ${apache::params::service}",
+    'Solaris'       => "/opt/csw/apache2/sbin/apachectl, /usr/sbin/svcadm ${apache_anf::params::service}",
   }
 
   group { "apache-admin":
@@ -13,8 +13,8 @@ class apache::administration {
   }
 
   # used in erb template
-  $wwwpkgname = $apache::params::pkg
-  $wwwuser    = $apache::params::user
+  $wwwpkgname = $apache_anf::params::pkg
+  $wwwuser    = $apache_anf::params::user
 
   sudo::directive { "apache-administration":
     ensure => present,

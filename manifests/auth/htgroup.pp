@@ -1,4 +1,4 @@
-define apache::auth::htgroup (
+define apache_anf::auth::htgroup (
   $ensure="present", 
   $vhost=false,
   $groupFileLocation=false,
@@ -6,13 +6,13 @@ define apache::auth::htgroup (
   $groupname,
   $members){
 
-  include apache::params
+  include apache_anf::params
 
   if $groupFileLocation {
     $_groupFileLocation = $groupFileLocation
   } else {
     if $vhost {
-      $_groupFileLocation = "${apache::params::root}/${vhost}/private"
+      $_groupFileLocation = "${apache_anf::params::root}/${vhost}/private"
     } else {
       fail "parameter vhost is require !"
     }  

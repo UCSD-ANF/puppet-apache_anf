@@ -1,9 +1,9 @@
 /*
 
-== Definition: apache::conf
+== Definition: apache_anf::conf
 
 Convenient wrapper around File[] resources to add random configuration
-snippets to apache. Shouldn't be called directly - please see apache::confd and apache::directive
+snippets to apache. Shouldn't be called directly - please see apache_anf::confd and apache_anf::directive
 
 Parameters:
 - *ensure*:        present/absent.
@@ -19,14 +19,14 @@ Requires:
 
 Example usage:
 
-  apache::conf { "example 1":
+  apache_anf::conf { "example 1":
     ensure        => present,
     path          => /var/www/foo/conf
     configuration => "WSGIPythonEggs /var/cache/python-eggs",
   }
 
 */
-define apache::conf($ensure=present, $filename="", $prefix="configuration", $configuration, $path) {
+define apache_anf::conf($ensure=present, $filename="", $prefix="configuration", $configuration, $path) {
   $fname = regsubst($name, "\s", "_", "G")
 
   if ($path == '') {

@@ -1,8 +1,8 @@
-class apache::redhat inherits apache::base {
+class apache_anf::redhat inherits apache_anf::base {
 
-  include apache::params
+  include apache_anf::params
   
-  # BEGIN inheritance from apache::base
+  # BEGIN inheritance from apache_anf::base
   Exec["apache-graceful"] {
     command => "/usr/sbin/apachectl graceful",
     onlyif  => "/usr/sbin/apachectl configtest",
@@ -29,14 +29,14 @@ class apache::redhat inherits apache::base {
   }
 
   File["default status module configuration"] {
-    path => "${apache::params::conf}/conf.d/status.conf",
+    path => "${apache_anf::params::conf}/conf.d/status.conf",
     source => "puppet:///modules/${module_name}/etc/httpd/conf/status.conf",
   }
 
   File["default virtualhost"] { 
     seltype => "httpd_config_t",
   }  
-  # END inheritance from apache::base
+  # END inheritance from apache_anf::base
 
   file { ["/usr/local/sbin/a2ensite", "/usr/local/sbin/a2dissite", "/usr/local/sbin/a2enmod", "/usr/local/sbin/a2dismod"]:
     ensure => present,
@@ -60,9 +60,9 @@ class apache::redhat inherits apache::base {
   }
 
   file { [
-      "${apache::params::conf}/sites-available",
-      "${apache::params::conf}/sites-enabled",
-      "${apache::params::conf}/mods-enabled"
+      "${apache_anf::params::conf}/sites-available",
+      "${apache_anf::params::conf}/sites-enabled",
+      "${apache_anf::params::conf}/mods-enabled"
     ]:
     ensure => directory,
     mode => 644,
@@ -72,7 +72,7 @@ class apache::redhat inherits apache::base {
     require => Package["apache"],
   }
 
-  file { "${apache::params::conf}/conf/httpd.conf":
+  file { "${apache_anf::params::conf}/conf/httpd.conf":
     ensure => present,
     content => template("apache/httpd.conf.erb"),
     seltype => "httpd_config_t",
@@ -83,7 +83,7 @@ class apache::redhat inherits apache::base {
   # the following command was used to generate the content of the directory:
   # egrep '(^|#)LoadModule' /etc/httpd/conf/httpd.conf | sed -r 's|#?(.+ (.+)_module .+)|echo "\1" > mods-available/redhat5/\2.load|' | sh
   # ssl.load was then changed to a template (see apache-ssl-redhat.pp)
-  file { "${apache::params::conf}/mods-available":
+  file { "${apache_anf::params::conf}/mods-available":
     ensure => directory,
     source => $lsbmajdistrelease ? {
       5 => "puppet:///modules/${module_name}/etc/httpd/mods-available/redhat5/",
@@ -98,7 +98,7 @@ class apache::redhat inherits apache::base {
   }
 
   # this module is statically compiled on debian and must be enabled here
-  apache::module {["log_config"]:
+  apache_anf::module {["log_config"]:
     ensure => present,
     notify => Exec["apache-graceful"],
   }
@@ -112,7 +112,7 @@ class apache::redhat inherits apache::base {
 
   # no idea why redhat choose to put this file there. apache fails if it's
   # present and mod_proxy isn't...
-  file { "${apache::params::conf}/conf.d/proxy_ajp.conf":
+  file { "${apache_anf::params::conf}/conf.d/proxy_ajp.conf":
     ensure => absent,
     require => Package["apache"],
     notify => Exec["apache-graceful"],

@@ -1,11 +1,11 @@
-class apache::awstats {
+class apache_anf::awstats {
 
   package { "awstats":
     ensure => installed
   }
 
   # ensure non-managed files are purged from directory
-  file { $apache::params::awstats_conf_dir :
+  file { $apache_anf::params::awstats_conf_dir :
     ensure  => directory,
     source  => "puppet:///modules/${module_name}/etc/awstats",
     mode    => 0755,

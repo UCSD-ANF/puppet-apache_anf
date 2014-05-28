@@ -1,4 +1,4 @@
-class apache::webdav::ssl::debian inherits apache::webdav::base {
+class apache_anf::webdav::ssl::debian inherits apache_anf::webdav::base {
 
   case $lsbdistcodename {
     etch: {

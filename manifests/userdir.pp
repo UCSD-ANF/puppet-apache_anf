@@ -1,4 +1,4 @@
-class apache::userdir {
+class apache_anf::userdir {
 
   file {"/etc/skel/public_html":
     ensure => directory,
@@ -30,7 +30,7 @@ class apache::userdir {
     source => "puppet:///modules/${module_name}/README_userdir",
   }
 
-  apache::module { "userdir":
+  apache_anf::module { "userdir":
     ensure => present,
   }
 

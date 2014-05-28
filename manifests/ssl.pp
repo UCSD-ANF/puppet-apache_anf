@@ -1,12 +1,12 @@
 /*
 
-== Class: apache::ssl
+== Class: apache_anf::ssl
 
 This class basically does the same thing the "apache" class does + enable
 mod_ssl.
 
 It also drops a little shell script in /usr/local/sbin/generate-ssl-cert.sh,
-which is used by apache::vhost-ssl to generate an SSL key and certificate. This
+which is used by apache_anf::vhost-ssl to generate an SSL key and certificate. This
 script calls openssl with /var/www/<vhost>/ssl/ssleay.cnf as a template. The
 content of this file is influenced by a few class variables described below.
 
@@ -26,14 +26,14 @@ Class variables:
 
 Example usage:
 
-  include apache::ssl
+  include apache_anf::ssl
 
 */
-class apache::ssl inherits apache {
+class apache_anf::ssl inherits apache {
   case $operatingsystem {
-    Debian,Ubuntu:  { include apache::ssl::debian}
-    RedHat,CentOS:  { include apache::ssl::redhat}
-    Solaris:        { include apache::ssl::solaris}
+    Debian,Ubuntu:  { include apache_anf::ssl::debian}
+    RedHat,CentOS:  { include apache_anf::ssl::redhat}
+    Solaris:        { include apache_anf::ssl::solaris}
     default: { fail "Unsupported operatingsystem ${operatingsystem}" }
   }
 }

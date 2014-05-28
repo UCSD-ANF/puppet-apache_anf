@@ -1,5 +1,5 @@
 /*
-== Definition: apache::listen
+== Definition: apache_anf::listen
 
 Adds a "Listen" directive to apache's ports.conf file.
 
@@ -12,17 +12,17 @@ Requires:
 
 Example usage:
 
-  apache::listen { "80": }
-  apache::listen { "127.0.0.1:8080": ensure => present }
+  apache_anf::listen { "80": }
+  apache_anf::listen { "127.0.0.1:8080": ensure => present }
 
 */
-define apache::listen ($ensure='present') {
+define apache_anf::listen ($ensure='present') {
 
-  include apache::params
+  include apache_anf::params
 
   concat::fragment { "apache-ports.conf-${name}":
     ensure  => $ensure,
-    target  => "${apache::params::conf}/ports.conf",
+    target  => "${apache_anf::params::conf}/ports.conf",
     content => "Listen ${name}\n",
   }
 

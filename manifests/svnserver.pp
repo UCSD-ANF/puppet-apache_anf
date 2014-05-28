@@ -1,4 +1,4 @@
-class apache::svnserver inherits apache::ssl {
+class apache_anf::svnserver inherits apache_anf::ssl {
 
   case $operatingsystem {
 
@@ -21,7 +21,7 @@ class apache::svnserver inherits apache::ssl {
     ensure => present,
   }
 
-  apache::module {
+  apache_anf::module {
     [
       "dav",
       "dav_svn",

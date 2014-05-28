@@ -1,6 +1,6 @@
 /*
 
-== Definition: apache::proxypass
+== Definition: apache_anf::proxypass
 
 Simple way of defining a proxypass directive for a given virtualhost.
 
@@ -25,7 +25,7 @@ Requires:
 
 Example usage:
 
-  apache::proxypass { "proxy legacy dir to legacy server":
+  apache_anf::proxypass { "proxy legacy dir to legacy server":
     ensure   => present,
     location => "/legacy/",
     url      => "http://legacyserver.example.com",
@@ -34,7 +34,7 @@ Example usage:
   }
 
 */
-define apache::proxypass (
+define apache_anf::proxypass (
   $ensure="present",
   $location="",
   $url="",
@@ -45,14 +45,14 @@ define apache::proxypass (
 
   $fname = regsubst($name, "\s", "_", "G")
 
-  include apache::params
+  include apache_anf::params
 
   if defined(Apache::Module["proxy"]) {} else {
-    apache::module {"proxy": }
+    apache_anf::module {"proxy": }
   }
 
   if defined(Apache::Module["proxy_http"]) {} else {
-    apache::module {"proxy_http": }
+    apache_anf::module {"proxy_http": }
   }
 
   file { "${name} proxypass on ${vhost}":
@@ -64,8 +64,8 @@ define apache::proxypass (
       default  => undef,
     },
     name    => $filename ? {
-      ""      => "${apache::params::vroot}/${vhost}/conf/proxypass-${fname}.conf",
-      default => "${apache::params::vroot}/${vhost}/conf/${filename}",
+      ""      => "${apache_anf::params::vroot}/${vhost}/conf/proxypass-${fname}.conf",
+      default => "${apache_anf::params::vroot}/${vhost}/conf/${filename}",
     },
     notify  => Exec["apache-graceful"],
     require => Apache::Vhost[$vhost],

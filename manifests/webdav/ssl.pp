@@ -1,6 +1,6 @@
-class apache::webdav::ssl inherits apache::ssl {
+class apache_anf::webdav::ssl inherits apache_anf::ssl {
   case $operatingsystem {
-    Debian,Ubuntu:  { include apache::webdav::ssl::debian}
+    Debian,Ubuntu:  { include apache_anf::webdav::ssl::debian}
     default: { fail "Unsupported operatingsystem ${operatingsystem}" }
   }
 }

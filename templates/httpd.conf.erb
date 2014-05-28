@@ -56,13 +56,13 @@ ServerTokens OS
 #
 # Do NOT add a slash at the end of the directory path.
 #
-ServerRoot <%= scope.lookupvar('apache::params::sroot') %>
+ServerRoot <%= scope.lookupvar('apache_anf::params::sroot') %>
 
 #
 # PidFile: The file in which the server should record its process
 # identification number when it starts.
 #
-PidFile <%= httpd_pid_file %>
+PidFile <%= @httpd_pid_file %>
 
 #
 # Timeout: The number of seconds before receives and sends time out.
@@ -133,7 +133,7 @@ MaxRequestsPerChild  0
 # prevent Apache from glomming onto all bound IP addresses (0.0.0.0)
 #
 #Listen 12.34.56.78:80
-Include <%= scope.lookupvar('apache::params::confrel') %>ports.conf
+Include <%= scope.lookupvar('apache_anf::params::confrel') %>ports.conf
 
 #
 # Dynamic Shared Object (DSO) Support
@@ -207,12 +207,12 @@ Include <%= scope.lookupvar('apache::params::confrel') %>ports.conf
 #LoadModule asis_module modules/mod_asis.so
 
 # Modules are loaded on-demand by puppet
-Include <%=scope.lookupvar('apache::params::confrel')%>mods-enabled/
+Include <%=scope.lookupvar('apache_anf::params::confrel')%>mods-enabled/
 
 #
 # Load config files from the config directory "/etc/httpd/conf.d".
 #
-Include <%=scope.lookupvar('apache::params::confrel')%>conf.d/*.conf
+Include <%=scope.lookupvar('apache_anf::params::confrel')%>conf.d/*.conf
 
 #
 # ExtendedStatus controls whether Apache will generate "full" status
@@ -233,8 +233,8 @@ Include <%=scope.lookupvar('apache::params::confrel')%>conf.d/*.conf
 #  when the value of (unsigned)Group is above 60000;
 #  don't use Group #-1 on these systems!
 #
-User <%=scope.lookupvar('apache::params::user')%>
-Group <%=scope.lookupvar('apache::params::group')%>
+User <%=scope.lookupvar('apache_anf::params::user')%>
+Group <%=scope.lookupvar('apache_anf::params::group')%>
 
 ### Section 2: 'Main' server configuration
 #
@@ -415,7 +415,7 @@ AccessFileName .htaccess
 # TypesConfig describes where the mime.types file (or equivalent) is
 # to be found.
 #
-TypesConfig <%=scope.lookupvar('apache::params::mime_file')%>
+TypesConfig <%=scope.lookupvar('apache_anf::params::mime_file')%>
 
 #
 # DefaultType is the default MIME type the server will use for a document
@@ -474,7 +474,7 @@ HostnameLookups Off
 # logged here.  If you *do* define an error logfile for a <VirtualHost>
 # container, that host's errors will be logged there and not here.
 #
-ErrorLog <%=scope.lookupvar('apache::params::logsrel')%>error_log
+ErrorLog <%=scope.lookupvar('apache_anf::params::logsrel')%>error_log
 
 #
 # LogLevel: Control the number of messages logged to the error_log.
@@ -503,7 +503,7 @@ LogFormat "%{User-agent}i" agent
 # define per-<VirtualHost> access logfiles, transactions will be
 # logged therein and *not* in this file.
 #
-CustomLog <%=scope.lookupvar('apache::params::logsrel')%>access_log common
+CustomLog <%=scope.lookupvar('apache_anf::params::logsrel')%>access_log common
 
 #
 # If you would like to have separate agent and referer logfiles, uncomment
@@ -516,7 +516,7 @@ CustomLog <%=scope.lookupvar('apache::params::logsrel')%>access_log common
 # For a single logfile with access, agent, and referer information
 # (Combined Logfile Format), use the following directive:
 #
-CustomLog <%=scope.lookupvar('apache::params::logsrel')%>access_log combined
+CustomLog <%=scope.lookupvar('apache_anf::params::logsrel')%>access_log combined
 
 #
 # Optionally add a line containing the server version and virtual host
@@ -541,9 +541,9 @@ ServerSignature On
 # We include the /icons/ alias for FancyIndexed directory listings.  If you
 # do not use FancyIndexing, you may comment this out.
 #
-Alias /icons/ "<%=scope.lookupvar('apache::params::icons')%>/"
+Alias /icons/ "<%=scope.lookupvar('apache_anf::params::icons')%>/"
 
-<Directory "<%=scope.lookupvar('apache::params::icons')%>">
+<Directory "<%=scope.lookupvar('apache_anf::params::icons')%>">
     Options Indexes MultiViews
     AllowOverride None
     Order allow,deny
@@ -566,13 +566,13 @@ Alias /icons/ "<%=scope.lookupvar('apache::params::icons')%>/"
 # The same rules about trailing "/" apply to ScriptAlias directives as to
 # Alias.
 #
-#ScriptAlias /cgi-bin/ "<%=scope.lookupvar('apache::params::cgibindir')%>/"
+#ScriptAlias /cgi-bin/ "<%=scope.lookupvar('apache_anf::params::cgibindir')%>/"
 
 #
-# "<%=scope.lookupvar('apache::params::cgibindir')%>" should be changed to whatever your ScriptAliased
+# "<%=scope.lookupvar('apache_anf::params::cgibindir')%>" should be changed to whatever your ScriptAliased
 # CGI directory exists, if you have that configured.
 #
-<Directory "<%=scope.lookupvar('apache::params::cgibindir')%>">
+<Directory "<%=scope.lookupvar('apache_anf::params::cgibindir')%>">
     AllowOverride None
     Options None
     Order allow,deny
@@ -835,15 +835,15 @@ AddOutputFilter INCLUDES .shtml
 #   Alias /error/include/ "/your/include/path/"
 #
 # which allows you to create your own set of files by starting with the
-# <%=scope.lookupvar('apache::params::error')%>/include/ files and
+# <%=scope.lookupvar('apache_anf::params::error')%>/include/ files and
 # copying them to /your/include/path/, even on a per-VirtualHost basis.
 #
 
-Alias /error/ "<%=scope.lookupvar('apache::params::error')%>/"
+Alias /error/ "<%=scope.lookupvar('apache_anf::params::error')%>/"
 
 <IfModule mod_negotiation.c>
 <IfModule mod_include.c>
-    <Directory "<%=scope.lookupvar('apache::params::error')%>">
+    <Directory "<%=scope.lookupvar('apache_anf::params::error')%>">
         AllowOverride None
         Options IncludesNoExec
         AddOutputFilter Includes html
@@ -995,5 +995,5 @@ BrowserMatch "^Dreamweaver-WebDAV-SCM1" redirect-carefully
 #    CustomLog logs/dummy-host.example.com-access_log common
 #</VirtualHost>
 
-Include <%=scope.lookupvar('apache::params::confrel')%>sites-enabled/
+Include <%=scope.lookupvar('apache_anf::params::confrel')%>sites-enabled/
 

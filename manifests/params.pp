@@ -1,4 +1,4 @@
-class apache::params {
+class apache_anf::params {
 
   $supported_os = ['RedHat','CentOS','Debian','Ubuntu','Solaris']
 

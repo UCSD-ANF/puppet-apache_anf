@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'apache::vhost' do
+describe 'apache_anf::vhost' do
   let(:title) { 'foo.example.com' }
 
   context 'on an unsupported os' do
@@ -13,7 +13,7 @@ describe 'apache::vhost' do
 
     it 'should fail to compile' do
       expect {
-        should include_class('apache::params')
+        should contain_class('apache_anf::params')
       }.to raise_error(Puppet::Error, /unsupported operatingsystem/)
     end
 
@@ -52,7 +52,7 @@ describe 'apache::vhost' do
           }
         end
 
-        it { should include_class('apache::params') }
+        it { should contain_class('apache_anf::params') }
 
         context 'with ensure => present' do
           let :params do

@@ -1,5 +1,5 @@
 /*
-== Definition: apache::namevhost
+== Definition: apache_anf::namevhost
 
 Adds a "NameVirtualHost" directive to apache's port.conf file.
 
@@ -15,17 +15,17 @@ Requires:
 
 Example usage:
 
-  apache::namevhost { "*:80": }
-  apache::namevhost { "127.0.0.1:8080": ensure => present }
+  apache_anf::namevhost { "*:80": }
+  apache_anf::namevhost { "127.0.0.1:8080": ensure => present }
 
 */
-define apache::namevhost ($ensure='present') {
+define apache_anf::namevhost ($ensure='present') {
 
-  include apache::params
+  include apache_anf::params
 
   concat::fragment { "apache-namevhost.conf-${name}":
     ensure  => $ensure,
-    target  => "${apache::params::conf}/ports.conf",
+    target  => "${apache_anf::params::conf}/ports.conf",
     content => "NameVirtualHost ${name}\n",
   }
 

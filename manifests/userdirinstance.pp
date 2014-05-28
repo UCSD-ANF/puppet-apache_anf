@@ -1,8 +1,8 @@
-define apache::userdirinstance ($ensure=present, $vhost) {
+define apache_anf::userdirinstance ($ensure=present, $vhost) {
 
-  include apache::params
+  include apache_anf::params
 
-  file { "${apache::params::vroot}/${vhost}/conf/userdir.conf":
+  file { "${apache_anf::params::vroot}/${vhost}/conf/userdir.conf":
     ensure => $ensure,
     content => template("${module_name}/userdir.erb"),
     seltype => $operatingsystem ? {

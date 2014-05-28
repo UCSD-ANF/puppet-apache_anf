@@ -1,6 +1,6 @@
-class apache::ssl::debian inherits apache::base::ssl {
+class apache_anf::ssl::debian inherits apache_anf::base::ssl {
 
-  apache::module {"ssl":
+  apache_anf::module {"ssl":
     ensure => present,
   }
 

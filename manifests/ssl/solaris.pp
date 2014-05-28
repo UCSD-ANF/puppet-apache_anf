@@ -1,24 +1,24 @@
-class apache::ssl::solaris inherits apache::base::ssl {
-  file {"${apache::params::conf}/conf.d/ssl.conf":
+class apache_anf::ssl::solaris inherits apache_anf::base::ssl {
+  file {"${apache_anf::params::conf}/conf.d/ssl.conf":
     ensure => absent,
     require => Package["apache"],
     notify => Service["apache"],
     before => Exec["apache-graceful"],
   }
 
-  apache::module { "ssl":
+  apache_anf::module { "ssl":
     ensure => present,
-    require => File["${apache::params::conf}/conf.d/ssl.conf"],
+    require => File["${apache_anf::params::conf}/conf.d/ssl.conf"],
     notify => Service["apache"],
     before => Exec["apache-graceful"],
   }
 
-  file {"${apache::params::conf}/mods-available/ssl.load":
+  file {"${apache_anf::params::conf}/mods-available/ssl.load":
     ensure => present,
     content => template("apache/ssl.load.solaris.erb"),
     mode => 644,
     owner => "root",
     group => "root",
-    require => File["${apache::params::conf}/mods-available"],
+    require => File["${apache_anf::params::conf}/mods-available"],
   }
 }

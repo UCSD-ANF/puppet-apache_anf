@@ -1,4 +1,4 @@
-class apache::webdav::base {
+class apache_anf::webdav::base {
 
   case $operatingsystem {
 
@@ -8,7 +8,7 @@ class apache::webdav::base {
         ensure => present,
       }
 
-      apache::module {"encoding":
+      apache_anf::module {"encoding":
         ensure  => present,
         require => Package["libapache2-mod-encoding"],
       }
@@ -22,12 +22,12 @@ class apache::webdav::base {
 
   }
 
-  apache::module {["dav", "dav_fs"]:
+  apache_anf::module {["dav", "dav_fs"]:
     ensure => present,
   }
 
   if !defined(Apache::Module["headers"]) {
-    apache::module {"headers":
+    apache_anf::module {"headers":
       ensure => present,
     }
   }

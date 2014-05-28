@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'apache::dev', :type=>'class' do
+describe 'apache_anf::dev', :type=>'class' do
   context 'on a Solaris OS' do
     let(:facts) {{
       :osfamily => 'Solaris',

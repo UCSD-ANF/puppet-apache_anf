@@ -1,8 +1,8 @@
-class apache::debian inherits apache::base {
+class apache_anf::debian inherits apache_anf::base {
 
-  include apache::params
+  include apache_anf::params
 
-  # BEGIN inheritance from apache::base
+  # BEGIN inheritance from apache_anf::base
   Exec["apache-graceful"] {
     command => "apache2ctl graceful",
     onlyif => "apache2ctl configtest",
@@ -14,14 +14,14 @@ class apache::debian inherits apache::base {
   }
 
   File["default status module configuration"] {
-    path => "${apache::params::conf}/mods-available/status.conf",
+    path => "${apache_anf::params::conf}/mods-available/status.conf",
     source => "puppet:///modules/${module_name}/etc/apache2/mods-available/status.conf",
   }
 
   User ['apache user']{
     shell => '/sbin/nologin',
   }
-  # END inheritance from apache::base
+  # END inheritance from apache_anf::base
 
   $mpm_package = $apache_mpm_type ? {
     "" => "apache2-mpm-prefork",
@@ -34,20 +34,20 @@ class apache::debian inherits apache::base {
   }
 
   # directory not present in lenny
-  file { "${apache::params::vroot}/apache2-default":
+  file { "${apache_anf::params::vroot}/apache2-default":
     ensure => absent,
     force  => true,
   }
 
-  file { "${apache::params::vroot}/index.html":
+  file { "${apache_anf::params::vroot}/index.html":
     ensure => absent,
   }
 
-  file { "${apache::params::vroot}/html":
+  file { "${apache_anf::params::vroot}/html":
     ensure  => directory,
   }
 
-  file { "${apache::params::vroot}/html/index.html":
+  file { "${apache_anf::params::vroot}/html/index.html":
     ensure  => present,
     owner   => root,
     group   => root,
@@ -55,7 +55,7 @@ class apache::debian inherits apache::base {
     content => "<html><body><h1>It works!</h1></body></html>\n",
   }
 
-  file { "${apache::params::conf}/conf.d/servername.conf":
+  file { "${apache_anf::params::conf}/conf.d/servername.conf":
     content => "ServerName ${fqdn}\n",
     notify  => Service["apache"],
     require => Package["apache"],

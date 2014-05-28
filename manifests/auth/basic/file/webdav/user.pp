@@ -1,4 +1,4 @@
-define apache::auth::basic::file::webdav::user (
+define apache_anf::auth::basic::file::webdav::user (
   $vhost,
   $ensure=present,
   $authname=false,
@@ -12,16 +12,16 @@ define apache::auth::basic::file::webdav::user (
 
   $fname = regsubst($name, '\s', '_', 'G')
 
-  include apache::params
+  include apache_anf::params
 
   if !defined(Apache::Module['authn_file']) {
-    apache::module {'authn_file': }
+    apache_anf::module {'authn_file': }
   }
 
   if $authUserFile {
     $_authUserFile = $authUserFile
   } else {
-    $_authUserFile = "${apache::params::root}/${vhost}/private/htpasswd"
+    $_authUserFile = "${apache_anf::params::root}/${vhost}/private/htpasswd"
   }
 
   if $authname {
@@ -36,7 +36,7 @@ define apache::auth::basic::file::webdav::user (
     $_users = $rw_users
   }
 
-  file { "${apache::params::root}/${vhost}/conf/auth-basic-file-webdav-${fname}.conf":
+  file { "${apache_anf::params::root}/${vhost}/conf/auth-basic-file-webdav-${fname}.conf":
     ensure     => $ensure,
     content    => template('apache/auth-basic-file-webdav-user.erb'),
     seltype    => $operatingsystem ? {

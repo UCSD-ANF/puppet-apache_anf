@@ -1,5 +1,5 @@
 /*
-== Class: apache::collectd
+== Class: apache_anf::collectd
 
 Configures collectd's apache plugin. This gathers data from apache's
 server-status and stores it in rrd files, from which you can make nice
@@ -14,10 +14,10 @@ Requires:
 Usage:
   include apache
   include collectd
-  include apache::collectd
+  include apache_anf::collectd
 
 */
-class apache::collectd {
+class apache_anf::collectd {
 
   if ($operatingsystem == "RedHat" or $operatingsystem == "CentOS") and $lsbmajdistrelease > "4" {
 

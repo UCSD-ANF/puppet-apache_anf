@@ -4,4 +4,4 @@ fixtures:
     concat: https://github.com/ripienaar/puppet-concat.git
     logrotate: https://github.com/UCSD-ANF/puppet-logrotate.git
   symlinks:
-    apache: "#{source_dir}"
+    apache_anf: "#{source_dir}"
