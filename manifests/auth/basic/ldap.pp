@@ -36,7 +36,7 @@ define apache_anf::auth::basic::ldap (
 
   file { "${apache_anf::params::root}/${vhost}/conf/auth-basic-ldap-${fname}.conf":
     ensure => $ensure,
-    content => template("apache/auth-basic-ldap.erb"),
+    content => template("apache_anf/auth-basic-ldap.erb"),
     seltype => $operatingsystem ? {
       "RedHat" => "httpd_config_t",
       "CentOS" => "httpd_config_t",

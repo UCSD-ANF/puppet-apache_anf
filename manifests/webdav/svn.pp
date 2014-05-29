@@ -6,7 +6,7 @@ define apache_anf::webdav::svn ($ensure, $vhost, $parentPath, $confname) {
 
   file { "${apache_anf::params::root}/${vhost}/conf/${confname}.conf":
     ensure  => $ensure,
-    content => template("apache/webdav-svn.erb"),
+    content => template("apache_anf/webdav-svn.erb"),
     seltype => $operatingsystem ? {
       "RedHat" => "httpd_config_t",
       "CentOS" => "httpd_config_t",

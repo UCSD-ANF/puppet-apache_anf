@@ -21,7 +21,7 @@ define apache_anf::webdav::instance ($ensure=present, $vhost, $directory=false,$
   # configuration
   file { "${apache_anf::params::root}/${vhost}/conf/webdav-${name}.conf":
     ensure => $ensure,
-    content => template("apache/webdav-config.erb"),
+    content => template("apache_anf/webdav-config.erb"),
     seltype => $operatingsystem ? {
       "RedHat" => "httpd_config_t",
       "CentOS" => "httpd_config_t",

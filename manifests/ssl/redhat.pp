@@ -23,7 +23,7 @@ class apache_anf::ssl::redhat inherits apache_anf::base::ssl {
     5,6: {
       file {"${apache_anf::params::conf}/mods-available/ssl.load":
         ensure => present,
-        content => template("apache/ssl.load.rhel${lsbmajdistrelease}.erb"),
+        content => template("apache_anf/ssl.load.rhel${lsbmajdistrelease}.erb"),
         mode => 644,
         owner => "root",
         group => "root",

@@ -186,8 +186,8 @@ define apache_anf::vhost_ssl (
     config_file    => $config_file,
     config_content => $config_content ? {
       false => $sslonly ? {
-        true => template("apache/vhost_ssl.erb"),
-        default => template("apache/vhost.erb", "apache/vhost_ssl.erb"),
+        true => template("apache_anf/vhost_ssl.erb"),
+        default => template("apache_anf/vhost.erb", "apache_anf/vhost_ssl.erb"),
       },
       default      => $config_content,
     },
@@ -219,7 +219,7 @@ define apache_anf::vhost_ssl (
       ensure  => present,
       owner   => "root",
       mode    => 0640,
-      content => template("apache/ssleay.cnf.erb"),
+      content => template("apache_anf/ssleay.cnf.erb"),
       require => File["${apache_anf::params::vroot}/${name}/ssl"],
     }
 

@@ -158,7 +158,7 @@ define apache_anf::vhost (
           } else {
             # default vhost template
             File["${apache_anf::params::conf}/sites-available/${name}"] {
-              content => template("apache/vhost.erb"),
+              content => template("apache_anf/vhost.erb"),
             }
           }
         }
@@ -215,7 +215,7 @@ define apache_anf::vhost (
         group   => root,
         mode    => 644,
         content => $readme ? {
-          false => template("apache/README_vhost.erb"),
+          false => template("apache_anf/README_vhost.erb"),
           default => $readme,
         },
         require => File["${apache_anf::params::vroot}/${name}"],

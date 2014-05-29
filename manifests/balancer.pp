@@ -87,7 +87,7 @@ define apache_anf::balancer (
 
   file{ "${name} balancer on ${vhost}":
     ensure  => $ensure,
-    content => template("apache/balancer.erb"),
+    content => template("apache_anf/balancer.erb"),
     seltype => $operatingsystem ? {
       "RedHat" => "httpd_config_t",
       "CentOS" => "httpd_config_t",

@@ -7,7 +7,7 @@ define apache_anf::aw-stats($ensure=present, $aliases=[]) {
 
   file { "${apache_anf::params::awstats_conf_dir}/awstats.${name}.conf":
     ensure  => $ensure,
-    content => template("apache/awstats.erb"),
+    content => template("apache_anf/awstats.erb"),
     require => [Package["apache"], Class["apache_anf::awstats"]],
   }
 

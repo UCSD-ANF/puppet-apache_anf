@@ -102,7 +102,7 @@ class apache_anf::base {
   file {"default virtualhost":
     path    => "${apache_anf::params::conf}/sites-available/default-vhost",
     ensure  => present,
-    content => template("apache/default-vhost.erb"),
+    content => template("apache_anf/default-vhost.erb"),
     require => Package["apache"],
     notify  => Exec["apache-graceful"],
     before  => File["${apache_anf::params::conf}/sites-enabled/000-default-vhost"],

@@ -57,7 +57,7 @@ define apache_anf::proxypass (
 
   file { "${name} proxypass on ${vhost}":
     ensure => $ensure,
-    content => template("apache/proxypass.erb"),
+    content => template("apache_anf/proxypass.erb"),
     seltype => $operatingsystem ? {
       "RedHat" => "httpd_config_t",
       "CentOS" => "httpd_config_t",

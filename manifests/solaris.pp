@@ -34,7 +34,7 @@ class apache_anf::solaris inherits apache_anf::base {
 
   File['logrotate configuration'] {
     path    => '/etc/logrotate.d/httpd',
-    content => template('apache/logrotate-httpd.erb'),
+    content => template('apache_anf/logrotate-httpd.erb'),
   }
 
   file { "${apache_anf::params::conf}/conf.d":
@@ -101,7 +101,7 @@ class apache_anf::solaris inherits apache_anf::base {
 
   file { "${apache_anf::params::conf}/httpd.conf":
     ensure => present,
-    content => template("apache/httpd.conf.erb"),
+    content => template("apache_anf/httpd.conf.erb"),
     notify  => Service["apache"],
     require => Package["apache"],
   }

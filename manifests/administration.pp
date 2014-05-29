@@ -18,7 +18,7 @@ class apache_anf::administration {
 
   sudo::directive { "apache-administration":
     ensure => present,
-    content => template("apache/sudoers.apache.erb"),
+    content => template("apache_anf/sudoers.apache.erb"),
     require => Group["apache-admin"],
   }
 

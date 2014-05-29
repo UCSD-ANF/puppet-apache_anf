@@ -25,7 +25,7 @@ class apache_anf::redhat inherits apache_anf::base {
   }
   File["logrotate configuration"] { 
     path    => "/etc/logrotate.d/httpd",
-    content => template("apache/logrotate-httpd.erb"),
+    content => template("apache_anf/logrotate-httpd.erb"),
   }
 
   File["default status module configuration"] {
@@ -74,7 +74,7 @@ class apache_anf::redhat inherits apache_anf::base {
 
   file { "${apache_anf::params::conf}/conf/httpd.conf":
     ensure => present,
-    content => template("apache/httpd.conf.erb"),
+    content => template("apache_anf/httpd.conf.erb"),
     seltype => "httpd_config_t",
     notify  => Service["apache"],
     require => Package["apache"],

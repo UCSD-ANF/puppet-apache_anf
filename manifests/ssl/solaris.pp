@@ -15,7 +15,7 @@ class apache_anf::ssl::solaris inherits apache_anf::base::ssl {
 
   file {"${apache_anf::params::conf}/mods-available/ssl.load":
     ensure => present,
-    content => template("apache/ssl.load.solaris.erb"),
+    content => template("apache_anf/ssl.load.solaris.erb"),
     mode => 644,
     owner => "root",
     group => "root",
