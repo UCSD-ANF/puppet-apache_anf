@@ -21,7 +21,7 @@ Parameters:
 
 Requires:
 - Class["apache"]
-- matching Apache::Vhost[] instance
+- matching Apache_anf::Vhost[] instance
 
 Example usage:
 
@@ -47,11 +47,11 @@ define apache_anf::proxypass (
 
   include apache_anf::params
 
-  if defined(Apache::Module["proxy"]) {} else {
+  if defined(Apache_anf::Module["proxy"]) {} else {
     apache_anf::module {"proxy": }
   }
 
-  if defined(Apache::Module["proxy_http"]) {} else {
+  if defined(Apache_anf::Module["proxy_http"]) {} else {
     apache_anf::module {"proxy_http": }
   }
 
@@ -68,6 +68,6 @@ define apache_anf::proxypass (
       default => "${apache_anf::params::vroot}/${vhost}/conf/${filename}",
     },
     notify  => Exec["apache-graceful"],
-    require => Apache::Vhost[$vhost],
+    require => Apache_anf::Vhost[$vhost],
   }
 }

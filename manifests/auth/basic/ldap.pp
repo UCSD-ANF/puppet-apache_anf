@@ -20,11 +20,11 @@ define apache_anf::auth::basic::ldap (
 
   include apache_anf::params
 
-  if defined(Apache::Module["ldap"]) {} else {
+  if defined(Apache_anf::Module["ldap"]) {} else {
     apache_anf::module {"ldap": }
   }
 
-  if defined(Apache::Module["authnz_ldap"]) {} else {
+  if defined(Apache_anf::Module["authnz_ldap"]) {} else {
     apache_anf::module {"authnz_ldap": }
   }
 

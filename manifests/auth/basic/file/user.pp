@@ -10,7 +10,7 @@ define apache_anf::auth::basic::file::user (
 
   include apache_anf::params
  
-  if defined(Apache::Module["authn_file"]) {} else {
+  if defined(Apache_anf::Module["authn_file"]) {} else {
     apache_anf::module {"authn_file": }
   }
 

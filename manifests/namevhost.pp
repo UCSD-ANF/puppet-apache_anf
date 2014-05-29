@@ -3,7 +3,7 @@
 
 Adds a "NameVirtualHost" directive to apache's port.conf file.
 
-Every "ports" parameter you define Apache::Vhost resources should have a
+Every "ports" parameter you define Apache_anf::Vhost resources should have a
 matching NameVirtualHost directive.
 
 Parameters:

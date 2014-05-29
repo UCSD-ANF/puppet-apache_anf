@@ -14,7 +14,7 @@ define apache_anf::auth::basic::file::webdav::user (
 
   include apache_anf::params
 
-  if !defined(Apache::Module['authn_file']) {
+  if !defined(Apache_anf::Module['authn_file']) {
     apache_anf::module {'authn_file': }
   }
 

@@ -26,7 +26,7 @@ class apache_anf::webdav::base {
     ensure => present,
   }
 
-  if !defined(Apache::Module["headers"]) {
+  if !defined(Apache_anf::Module["headers"]) {
     apache_anf::module {"headers":
       ensure => present,
     }

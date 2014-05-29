@@ -16,7 +16,7 @@ Parameters:
 
 Requires:
 - Class["apache"]
-- matching Apache::Vhost[] instance
+- matching Apache_anf::Vhost[] instance
 
 Example usage:
 
@@ -46,6 +46,6 @@ define apache_anf::redirectmatch ($ensure="present", $regex, $url, $filename="",
       default => "${apache_anf::params::vroot}/${vhost}/conf/${filename}",
     },
     notify  => Exec["apache-graceful"],
-    require => Apache::Vhost[$vhost],
+    require => Apache_anf::Vhost[$vhost],
   }
 }

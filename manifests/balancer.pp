@@ -26,7 +26,7 @@ Parameters:
 
 Requires:
 - Class["apache"]
-- matching Apache::Vhost[] instance
+- matching Apache_anf::Vhost[] instance
 
 Example usage:
 
@@ -62,24 +62,24 @@ define apache_anf::balancer (
 
   $balancer = "balancer://${fname}"
 
-  if !defined(Apache::Module["proxy"]) {
+  if !defined(Apache_anf::Module["proxy"]) {
     apache_anf::module {"proxy": }
   }
 
-  if !defined(Apache::Module["proxy_balancer"]) {
+  if !defined(Apache_anf::Module["proxy_balancer"]) {
     apache_anf::module {"proxy_balancer": }
   }
 
   # ensure proxy modules are enabled
   case $proto {
     http: {
-      if !defined(Apache::Module["proxy_http"]) {
+      if !defined(Apache_anf::Module["proxy_http"]) {
         apache_anf::module {"proxy_http": }
       }
     }
 
     ajp: {
-      if !defined(Apache::Module["proxy_ajp"]) {
+      if !defined(Apache_anf::Module["proxy_ajp"]) {
         apache_anf::module {"proxy_ajp": }
       }
     }
@@ -98,7 +98,7 @@ define apache_anf::balancer (
       default => "${apache_anf::params::vroot}/${vhost}/conf/${filename}",
     },
     notify  => Exec["apache-graceful"],
-    require => Apache::Vhost[$vhost],
+    require => Apache_anf::Vhost[$vhost],
   }
 
 }

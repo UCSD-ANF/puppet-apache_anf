@@ -16,7 +16,7 @@ Parameters:
 
 Requires:
 - Class["apache"]
-- matching Apache::Vhost[] instance
+- matching Apache_anf::Vhost[] instance
 
 Example usage:
 
@@ -50,6 +50,6 @@ define apache_anf::directive ($ensure="present", $directive="", $filename="", $v
     prefix        => 'directive',
     filename      => $filename,
     configuration => $directive,
-    require       => Apache::Vhost[$vhost],
+    require       => Apache_anf::Vhost[$vhost],
   }
 }

@@ -26,6 +26,6 @@ define apache_anf::aw-stats($ensure=present, $aliases=[]) {
       default  => undef,
     },
     notify  => Exec["apache-graceful"],
-    require => Apache::Vhost[$name],
+    require => Apache_anf::Vhost[$name],
   }
 }
