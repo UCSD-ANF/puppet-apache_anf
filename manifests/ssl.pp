@@ -29,7 +29,7 @@ Example usage:
   include apache_anf::ssl
 
 */
-class apache_anf::ssl inherits apache {
+class apache_anf::ssl inherits apache_anf {
   case $operatingsystem {
     Debian,Ubuntu:  { include apache_anf::ssl::debian}
     RedHat,CentOS:  { include apache_anf::ssl::redhat}
