@@ -10,7 +10,6 @@ It shouldn't be necessary to directly include this class.
 class apache_anf::base {
 
   include apache_anf::params
-  include concat::setup
 
   $access_log = $apache_anf::params::access_log
   $error_log  = $apache_anf::params::error_log
